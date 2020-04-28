@@ -98,6 +98,7 @@
     <Compile Include="Excel\NPOIExcel.cs" />
     <Compile Include="IdGenerator.cs" />
     <Compile Include="IocContainer.cs" />
+    <Compile Include="IocContainer2.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="LogUtils.cs" />
     <Compile Include="MD5Encrypt.cs" />

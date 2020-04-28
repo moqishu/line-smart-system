@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Reps>
+  <Rep key="Sys_GetButtonList" Remark="获取按钮列表">
+    <ReportSql>
+      <![CDATA[
+        SELECT sb.Id,sb.BtnCode,sb.BtnName,sb.EngName,sb.Icon,sb.OrderId,sb.CreateTime 
+        FROM sys_button sb 
+      ]]>
+    </ReportSql>
+    <OrderSql>
+      <![CDATA[
+        
+      ]]>
+    </OrderSql>
+    <TotalSql>
+      <![CDATA[
+        SELECT COUNT(0)
+        FROM sys_button sb
+        WHERE @Param
+      ]]>
+    </TotalSql>
+    <Dynamic property="@Param">
+      <c property="UserId" prepend="AND" type="">
+        <![CDATA[
+         bu.UserId=@UserId
+        ]]>
+      </c>
+      <c property="ParentId" prepend="AND" type="">
+        <![CDATA[
+         bu.ParentId=@ParentId
+        ]]>
+      </c>
+      <c property="Account" prepend="AND" type="LIKE">
+        <![CDATA[
+         bu.Account LIKE @Account
+        ]]>
+      </c>
+      <c property="UserName" prepend="AND" type="LIKE">
+        <![CDATA[
+         bu.UserName LIKE @UserName
+        ]]>
+      </c>
+      <c property="StartTime" prepend="AND" type="">
+        <![CDATA[
+          bu.AddTime>=@StartTime
+        ]]>
+      </c>
+      <c property="EndTime" prepend="AND" type="">
+        <![CDATA[
+          bu.AddTime<=@EndTime
+        ]]>
+      </c>
+    </Dynamic>
+  </Rep>
+
+  <Rep key="Sys_GetMenuList" Remark="获取菜单列表">
+    <ReportSql>
+      <![CDATA[
+        SELECT sb.Id,sb.BtnCode,sb.BtnName,sb.EngName,sb.Icon,sb.OrderId,sb.CreateTime 
+        FROM sys_button sb 
+      ]]>
+    </ReportSql>
+    <OrderSql>
+      <![CDATA[
+        
+      ]]>
+    </OrderSql>
+    <TotalSql>
+      <![CDATA[
+        SELECT COUNT(0)
+        FROM sys_button sb
+        WHERE @Param
+      ]]>
+    </TotalSql>
+    <Dynamic property="@Param">
+      <c property="UserId" prepend="AND" type="">
+        <![CDATA[
+         bu.UserId=@UserId
+        ]]>
+      </c>
+      <c property="ParentId" prepend="AND" type="">
+        <![CDATA[
+         bu.ParentId=@ParentId
+        ]]>
+      </c>
+      <c property="Account" prepend="AND" type="LIKE">
+        <![CDATA[
+         bu.Account LIKE @Account
+        ]]>
+      </c>
+      <c property="UserName" prepend="AND" type="LIKE">
+        <![CDATA[
+         bu.UserName LIKE @UserName
+        ]]>
+      </c>
+      <c property="StartTime" prepend="AND" type="">
+        <![CDATA[
+          bu.AddTime>=@StartTime
+        ]]>
+      </c>
+      <c property="EndTime" prepend="AND" type="">
+        <![CDATA[
+          bu.AddTime<=@EndTime
+        ]]>
+      </c>
+    </Dynamic>
+  </Rep>
+</Reps>

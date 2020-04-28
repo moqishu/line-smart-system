@@ -1,0 +1,101 @@
+﻿@using LINE.SMA.Infrastructure;
+@using LINE.SMA.Service;
+@{
+    ViewBag.Title = "OrderDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var platTypeList = IocContainer.Resolve<SysBaseService>().GetPlatTypeList();
+}
+
+<div class="page-content">
+    <div id="searchbar" class="searchbar">
+        <input type="text" id="trafficId" col="trafficId" name="" placeholder="车次号">
+        <input type="text" id="carplateFull" col="carplateFull" placeholder="车牌号">
+        <input type="text" id="etcNo" col="etcNo" placeholder="EtcNo">
+        <input type="text" id="orderNo" col="orderNo" placeholder="订单号">
+        <select id="payPlatforme" col="payPlatforme" class="form-control select2" data-placeholder="请选择平台">
+            <option value=""></option>
+            @foreach (var li in platTypeList.Where(c => c.MainType == 1))
+            {
+                <option value="@li.TypeValue">@li.TypeName</option>
+            }
+        </select>
+        <select id="payType" col="payType" class="form-control select2" data-placeholder="请选择缴费终端">
+            <option value=""></option>
+            @foreach (var li in platTypeList.Where(c => c.MainType == 2))
+            {
+                <option value="@li.TypeValue">@li.TypeName</option>
+            }
+        </select>
+        <select id="payMethod" col="payMethod" class="form-control select2" data-placeholder="请选择支付方式">
+            <option value=""></option>
+            @foreach (var li in platTypeList.Where(c => c.MainType == 3))
+            {
+                <option value="@li.TypeValue">@li.TypeName</option>
+            }
+        </select>
+        <input class="Wdate" col="StartTime" type="text" placeholder="开始时间" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+        <input class="Wdate" col="EndTime" type="text" placeholder="结束时间" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+
+        <a id="btnSearch" author="S" class="btn btn-sm btn-primary">查询</a>
+    </div>
+    <div id="grid">
+    </div>
+</div>
+<script>
+    $(function () {
+
+        var reportName = "Detail_GetOrderDetail";
+        $('#grid').LineGrid({
+            url: "/Common/GetPageData?reportName=" + reportName,
+            queryParams: GetParams(),
+            //singleSelect: false,
+            showFooter: true,
+            //fitColumns: true,
+            columns: [[
+                //{ field: 'ck', title: '选择', checkbox: true },
+                { field: 'id', title: '编号', align: 'center', width: 80 },
+                { field: 'trafficId', title: '车次号', align: 'center', width: 150 },
+                { field: 'orderNo', title: '订单号', align: 'center', width: 220 },
+                { field: 'carplateFull', title: '车牌号码', align: 'center', width: 120 },
+                { field: 'carplateAsi', title: '车牌(无省份)', align: 'center', width: 120 },
+                { field: "etcNo", title: "EtcNo", align: 'center', width: 140 },
+                { field: "comeTime", title: "入场时间", align: 'center', width: 180 },
+                //{ field: "carTypeName", title: "卡片类型", align: 'center', width: 180 },
+                //{ field: "carStyleName", title: "车辆类型", align: 'center', width: 180 },
+                { field: "payMoney", title: "支付金额", halign: 'center', align: 'right', width: 100 },
+                { field: "ticketMoney", title: "抵扣金额", halign: 'center', align: 'right', width: 100 },
+                { field: "ticketTime", title: "抵扣时长", halign: 'center', align: 'right', width: 100 },
+                { field: "freeMoney", title: "免费金额", halign: 'center', align: 'right', width: 100 },
+                { field: "chargeMoney", title: "找零金额", halign: 'center', align: 'right', width: 100 },
+                { field: "payTime", title: "支付时间", align: 'center', width: 180 },
+                { field: "payMethodName", title: "支付方式", align: 'center', width: 120 },
+                { field: "payTypeName", title: "缴费终端", align: 'center', width: 120 },
+                { field: "platName", title: "平台", align: 'center', width: 120 },
+                { field: "remark", title: "备注", align: 'center', width: 220 },
+            ]]
+        });
+
+        function opFormat(value, row) {
+            var html = "";
+            html += "<a href=\"javascript:void(0)\" class=\"btn btn-xs btn-info\" onclick=\"\">编辑</a>";
+            return html;
+        }
+
+        $("#btnSearch").click(function () {
+            search();
+
+        });
+
+        function search(gridId, parameter) {
+
+            dataExt.loadGrid("grid",GetParams());
+        }
+
+        function GetParams() {
+            var result = $(".searchbar").GetParameter();
+            return result;
+        }
+    });
+
+</script>

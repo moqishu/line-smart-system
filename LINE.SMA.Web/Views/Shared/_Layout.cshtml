@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>停车收费系统</title>
+
+    <link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+    @*<link href="~/Content/AdminLTE/css/skins/_all-skins.min.css" rel="stylesheet" />*@
+
+    @*<script src="~/Content/common/jquery.min.js"></script>*@
+    <script src="~/Content/jquery-easyui/jquery.min.js"></script>
+    <script src="~/Content/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Content/layer/layer.js"></script>
+    <link href="~/Content/layer/theme/default/layer.css" rel="stylesheet" />
+
+    <link href="~/Content/jquery-easyui/themes/gray/easyui.css" rel="stylesheet" />
+
+    <script src="~/Resources/scripts/Common.js"></script>
+
+    <script src="~/Content/jquery-easyui/jquery.min.js"></script>
+    <script src="~/Content/jquery-easyui/jquery.easyui.min.js"></script>
+    <script src="~/Content/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+
+    <script src="~/Resources/scripts/LineGrid.js"></script>
+
+    <link href="~/Content/select2/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="~/Content/select2/dist/js/select2.full.min.js"></script>
+
+    <link href="~/Content/icheck/skins/all.css" rel="stylesheet" />
+    <script src="~/Content/icheck/icheck.min.js"></script>
+
+    <link href="~/Content/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" />
+    <script src="~/Content/My97DatePicker/WdatePicker.js"></script>
+
+    <script src="~/Resources/scripts/ajaxUtil.js"></script>
+
+    <link href="~/Content/AdminLTE/css/AdminLTE.min.css" rel="stylesheet" />
+    <link href="~/Resources/css/Default.css" rel="stylesheet" />
+    <link href="~/Resources/css/EasyDatagrid.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div id="inner-content" class="wrapper-child">
+        @RenderBody()
+    </div>
+</body>
+</html>
+
+<script>
+
+    // grid高度会受到select2加载影响，放在外面提前加载
+    $('.select2').select2({
+        width: '180',
+        placeholder: '请选择',
+        allowClear: true
+    });
+
+    // 动态添加input样式
+    //$(".searchbar input,.pageDetail input").addClass("form-control");
+    $("input").addClass("form-control");
+
+    $(function () {
+
+        // 菜单权限设置
+
+
+        //$(window).resize(function () {
+        //    //window.setTimeout(function () {
+        //    //    js.resizeTabContent()
+        //    //},
+        //    //500)
+        //});
+
+        // 全局初始化iCheck
+        //$(("input")).iCheck({
+        //    checkboxClass: 'icheckbox_minimal-blue',
+        //    radioClass: 'iradio_square-blue'
+        //});
+        //$(window).on("load",function(){
+        //    $.mCustomScrollbar.defaults.scrollButtons.enable = true; //enable scrolling buttons by default
+        //    $.mCustomScrollbar.defaults.axis = "yx"; //enable 2 axis scrollbars by default
+        //    //$(".datagrid-body").mCustomScrollbar({ theme: "minimal-dark" });
+        //    //$(".datagrid-body").mCustomScrollbar({ theme: "minimal-dark" });
+
+        //    //$('.datagrid-body').slimscroll();
+
+        //});
+
+    });
+</script>

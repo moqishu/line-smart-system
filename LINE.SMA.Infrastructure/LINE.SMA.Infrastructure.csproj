@@ -1,17 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>c6a40e30-ba73-44f1-858f-1dff46a86315</ProjectGuid>
+    <ProjectGuid>{C6A40E30-BA73-44F1-858F-1DFF46A86315}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LINE.SMA.Infrastructure</RootNamespace>
     <AssemblyName>LINE.SMA.Infrastructure</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,24 +31,115 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System"/>
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="Microsoft.CSharp"/>
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Xml"/>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>referencedll\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>referencedll\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.1.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>referencedll\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=2.1.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>referencedll\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>referencedll\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.8.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>referencedll\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>referencedll\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>referencedll\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>referencedll\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>referencedll\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>referencedll\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>referencedll\mvc\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="AspectAttribute\TransactionAttribute.cs" />
+    <Compile Include="Base\AlertException.cs" />
+    <Compile Include="Base\EntityBase.cs" />
+    <Compile Include="Base\ISingleton.cs" />
+    <Compile Include="Base\PageData.cs" />
+    <Compile Include="Base\SqlParams.cs" />
+    <Compile Include="Excel\NPOIExcel.cs" />
+    <Compile Include="IdGenerator.cs" />
+    <Compile Include="IocContainer.cs" />
+    <Compile Include="Json.cs" />
+    <Compile Include="LogUtils.cs" />
+    <Compile Include="MD5Encrypt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringExtensions.cs" />
+    <Compile Include="VerifyCode.cs" />
+    <Compile Include="WebHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="referencedll\Antlr3.Runtime.dll" />
+    <Content Include="referencedll\Common.Logging.Core.dll" />
+    <Content Include="referencedll\Common.Logging.dll" />
+    <Content Include="referencedll\EntityFramework.dll" />
+    <Content Include="referencedll\EntityFramework.SqlServer.dll" />
+    <Content Include="referencedll\ktpassword.dll" />
+    <Content Include="referencedll\log4net.dll" />
+    <Content Include="referencedll\log4net2.dll" />
+    <Content Include="referencedll\Microsoft.Practices.ServiceLocation.dll" />
+    <Content Include="referencedll\Microsoft.Practices.Unity.Configuration.dll" />
+    <Content Include="referencedll\Microsoft.Practices.Unity.dll" />
+    <Content Include="referencedll\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="referencedll\Mono.Cecil.dll" />
+    <Content Include="referencedll\Mono.Cecil.Mdb.dll" />
+    <Content Include="referencedll\Mono.Cecil.Pdb.dll" />
+    <Content Include="referencedll\Mono.Cecil.Rocks.dll" />
+    <Content Include="referencedll\mvc\System.Net.Http.dll" />
+    <Content Include="referencedll\mvc\System.Net.Http.Formatting.dll" />
+    <Content Include="referencedll\mvc\System.Net.Http.WebRequest.dll" />
+    <Content Include="referencedll\mvc\System.Web.Helpers.dll" />
+    <Content Include="referencedll\mvc\System.Web.Http.dll" />
+    <Content Include="referencedll\mvc\System.Web.Http.WebHost.dll" />
+    <Content Include="referencedll\mvc\System.Web.Mvc.dll" />
+    <Content Include="referencedll\mvc\System.Web.Razor.dll" />
+    <Content Include="referencedll\mvc\System.Web.WebPages.Deployment.dll" />
+    <Content Include="referencedll\mvc\System.Web.WebPages.dll" />
+    <Content Include="referencedll\mvc\System.Web.WebPages.Razor.dll" />
+    <Content Include="referencedll\MySql.Data.dll" />
+    <Content Include="referencedll\MySql.Data.Entity.dll" />
+    <Content Include="referencedll\MySql.Data.Entity.EF6.dll" />
+    <Content Include="referencedll\Newtonsoft.Json.dll" />
+    <Content Include="referencedll\Quartz.dll" />
+    <Content Include="referencedll\SheepAspect.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
- </Project>
+</Project>

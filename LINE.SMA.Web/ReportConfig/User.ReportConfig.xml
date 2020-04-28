@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Reps>
+  <Rep key="User_GetUserList" Remark="获取人员列表">
+    <ReportSql>
+      <![CDATA[
+        SELECT tu.id ,tu.userid,tu.createtime,tu.username,tu.userdes,tu.usertel
+        ,tu.loginstate,tu.userstate,tr.rolename,tu.usersex,tu.logintime
+        FROM t_user tu  INNER JOIN t_role tr ON tu.roleid = tr.id
+        WHERE @Param
+      ]]>
+    </ReportSql>
+    <OrderSql>
+      <![CDATA[
+        
+      ]]>
+    </OrderSql>
+    <TotalSql>
+      <![CDATA[
+        SELECT COUNT(0)
+        FROM t_user tu
+        WHERE @Param
+      ]]>
+    </TotalSql>
+    <Dynamic property="@Param">
+      <c property="UserId" prepend="AND" type="">
+        <![CDATA[
+         bu.UserId=@UserId
+        ]]>
+      </c>
+      <c property="ParentId" prepend="AND" type="">
+        <![CDATA[
+         bu.ParentId=@ParentId
+        ]]>
+      </c>
+      <c property="Account" prepend="AND" type="LIKE">
+        <![CDATA[
+         bu.Account LIKE @Account
+        ]]>
+      </c>
+      <c property="UserName" prepend="AND" type="LIKE">
+        <![CDATA[
+         bu.UserName LIKE @UserName
+        ]]>
+      </c>
+      <c property="StartTime" prepend="AND" type="">
+        <![CDATA[
+          bu.AddTime>=@StartTime
+        ]]>
+      </c>
+      <c property="EndTime" prepend="AND" type="">
+        <![CDATA[
+          bu.AddTime<=@EndTime
+        ]]>
+      </c>
+    </Dynamic>
+  </Rep>
+
+  <Rep key="User_GetRoleList" Remark="获取角色列表">
+    <ReportSql>
+      <![CDATA[
+        SELECT tr.id,tr.rolename,tr.remark,tr.createTime,tr.typeId FROM t_role tr 
+        WHERE @Param
+      ]]>
+    </ReportSql>
+    <OrderSql>
+      <![CDATA[
+        
+      ]]>
+    </OrderSql>
+    <TotalSql>
+      <![CDATA[
+        SELECT COUNT(0)
+        FROM t_role tr
+        WHERE @Param
+      ]]>
+    </TotalSql>
+    <Dynamic property="@Param">
+      <c property="UserId" prepend="AND" type="">
+        <![CDATA[
+         bu.UserId=@UserId
+        ]]>
+      </c>
+      <c property="ParentId" prepend="AND" type="">
+        <![CDATA[
+         bu.ParentId=@ParentId
+        ]]>
+      </c>
+      <c property="Account" prepend="AND" type="LIKE">
+        <![CDATA[
+         bu.Account LIKE @Account
+        ]]>
+      </c>
+      <c property="UserName" prepend="AND" type="LIKE">
+        <![CDATA[
+         bu.UserName LIKE @UserName
+        ]]>
+      </c>
+      <c property="StartTime" prepend="AND" type="">
+        <![CDATA[
+          bu.AddTime>=@StartTime
+        ]]>
+      </c>
+      <c property="EndTime" prepend="AND" type="">
+        <![CDATA[
+          bu.AddTime<=@EndTime
+        ]]>
+      </c>
+    </Dynamic>
+  </Rep>
+
+  <Rep key="User_GetRolerRight" Remark="获取角色权限">
+    <ReportSql>
+      <![CDATA[
+        SELECT t.id,t.funname,t.menus,t._parentId,t.parentid FROM 
+  (SELECT tf.id,tf.funname,'' AS menus,tf.parentid as _parentId,tf.parentid FROM t_function2 tf 
+        WHERE tf.parentid= 0 
+        UNION
+        SELECT
+          a.id,
+          a.funname,
+          (SELECT GROUP_CONCAT(tf.funname,'|',tf.id,'|',IF(tr.funid IS NULL,0,1)) AS IsChecked from t_function2 tf
+            LEFT JOIN t_rolefun tr ON tf.id = tr.funid AND tr.roleid=1 WHERE tf.parentid  = a.id) AS menus,
+          a.parentid as _parentId,
+          a.parentid
+        FROM t_function2 a
+          INNER JOIN t_function2 b
+            ON a.parentid = b.id
+        WHERE b.parentid = 0 )  t
+  ORDER BY t.id,t._parentId
+
+      ]]>
+    </ReportSql>
+    <OrderSql>
+      <![CDATA[
+        
+      ]]>
+    </OrderSql>
+    <TotalSql>
+      <![CDATA[
+        SELECT COUNT(0)
+        FROM (SELECT tf.id FROM t_function2 tf 
+        WHERE tf.parentid= 0 
+        UNION   
+        SELECT a.id FROM t_function2 a
+          INNER JOIN t_function2 b
+            ON a.parentid = b.id
+        WHERE b.parentid = 0 ) t
+        WHERE @Param
+      ]]>
+    </TotalSql>
+    <Dynamic property="@Param">
+      <c property="UserId" prepend="AND" type="">
+        <![CDATA[
+         bu.UserId=@UserId
+        ]]>
+      </c>
+      <c property="ParentId" prepend="AND" type="">
+        <![CDATA[
+         bu.ParentId=@ParentId
+        ]]>
+      </c>
+      <c property="Account" prepend="AND" type="LIKE">
+        <![CDATA[
+         bu.Account LIKE @Account
+        ]]>
+      </c>
+      <c property="UserName" prepend="AND" type="LIKE">
+        <![CDATA[
+         bu.UserName LIKE @UserName
+        ]]>
+      </c>
+      <c property="StartTime" prepend="AND" type="">
+        <![CDATA[
+          bu.AddTime>=@StartTime
+        ]]>
+      </c>
+      <c property="EndTime" prepend="AND" type="">
+        <![CDATA[
+          bu.AddTime<=@EndTime
+        ]]>
+      </c>
+    </Dynamic>
+  </Rep>
+
+</Reps>

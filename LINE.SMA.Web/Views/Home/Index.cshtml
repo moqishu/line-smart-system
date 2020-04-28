@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>默七书</title>
+    @*<link rel="shortcut icon" href="@Url.Content("~/abcico.ico")" />*@
+    <link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/AdminLTE/css/AdminLTE.min.css" rel="stylesheet" />
+    <link href="~/Content/AdminLTE/css/skins/_all-skins.min.css" rel="stylesheet" />
+    
+
+    <script src="~/Content/common/jquery.min.js"></script>
+    <script src="~/Content/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Content/AdminLTE/js/adminlte.js"></script>
+    <script src="~/Content/common/jquery.slimscroll.min.js"></script>
+    <script src="~/Content/layer/layer.js"></script>
+    <script src="~/Resources/scripts/index.js"></script>
+    
+    <link href="~/Content/wdScrollTab/css/TabPanel.css" rel="stylesheet" />
+    <script src="~/Content/wdScrollTab/js/TabPanel.js"></script>
+    <script src="~/Content/wdScrollTab/js/TabPanel.extend.js"></script>
+
+    <script src="~/Content/jquery-easyui/jquery.easyui.min.js"></script>
+    <link href="~/Content/jquery-easyui/themes/default/easyui.css" rel="stylesheet" />
+    @*<script src="~/Resources/scripts/mochestab.js"></script>*@
+    <script src="~/Resources/scripts/animationUtil.js"></script>
+    <script src="~/Resources/scripts/Common.js"></script>
+    <link href="~/Resources/css/Default.css" rel="stylesheet" />
+</head>
+<body class="hold-transition skin-blue sidebar-mini fixed">
+    <div class="wrapper">
+        <!-- header -->
+        <div class="main-header">
+            <a href="index2.html" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>科</b>拓</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>停车收费管理系统</b></span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+            @*<ul class="nav navbar-nav">
+                <li>
+                    <a>
+                        <i class="fa fa-home"></i>
+                        <span>智能停车收费系统</span>
+                    </a>
+                </li>
+            </ul>*@
+            <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            @*<li class="dropdown messages-menu">
+                                <a href="#" id="nowTime" title="当前时间">
+                                    @DateTime.Now.ToString("F")
+                                </a>
+                            </li>*@
+                            <li class="dropdown messages-menu">
+                                <a href="#" id="switchSkin" title="切换主题">
+                                    <i class="fa fa-dashboard"></i>
+                                </a>
+                            </li>
+                            <!-- Messages: style can be found in dropdown.less-->
+                            <li class="dropdown messages-menu">
+                                <a href="#" class="dropdown-toggle">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span class="label label-success">4</span>
+                                </a>
+                            </li>
+                            <li class="dropdown notifications-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-bell-o"></i>
+                                    <span class="label label-warning">10</span>
+                                </a>
+                            </li>
+                            <li class="dropdown tasks-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-flag-o"></i>
+                                    <span class="label label-danger">9</span>
+                                </a>
+                            </li>
+                            <li class="dropdown user user-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <img src="~/Content/AdminLTE/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                                    <span class="hidden-xs">小七叔 </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="mt5">
+                                        <a id="userInfo" href="javascript:" data-href="/User/Personal" class="addTabPage" data-tab-id="tabpanel-7b1a1b0f6f">
+                                            <i class="fa fa-user"></i> 个人中心
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a id="modifyPassword" href="javascript:" data-href="/jeesite-web/a/sys/user/info?op=pwd" class="addTabPage">
+                                            <i class="fa fa-key"></i> 修改密码
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="/jeesite-web/a/logout">
+                                            <i class="fa fa-sign-out"></i> 退出登录
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header mb5">系统切换：</li>
+                                    <li>
+                                        <a href="/jeesite-web/a/switch/default">
+                                            <i class="fa fa-check-circle-o"></i> 主导航菜单
+                                        </a>
+                                    </li>
+                                    <li class="mt10"></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+            </nav>
+        </div>
+        <!-- sidebar -->
+        <div class="main-sidebar">
+            <div class="sidebar">
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src="~/Content/AdminLTE/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                        <p>Admin</p>
+                        @*<p>@DateTime.Now</p>*@
+                        <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
+                        <a href="#"><i class="fa fa-sign-out text-danger"></i> 注销</a>
+                    </div>
+                </div>
+                <form action="#" method="get" class="sidebar-form">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                <ul class="sidebar-menu" data-widget="tree">
+                    @*<li class="header">系统管理</li>
+                    <li class="active treeview menu-open">
+                        <a href="#">
+                            <i class="fa fa-dashboard"></i> <span>组织管理</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="menuItem active" href="/Menu/MenuEdit" data-id="7"><a href="#"><i class="fa fa-circle-o"></i> 白居易</a></li>
+                            <li class="menuItem" href="info.html" data-id="8"><a href="#"><i class="fa fa-circle-o"></i> 辛弃疾</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-dashboard"></i> <span>文件管理</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="menuItem" href="~/Home/Index" data-id="7"><a href="#"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                            <li class="menuItem" href="info.html" data-id="7"><a href="#"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+                        </ul>
+                    </li>*@
+                </ul>
+            </div>
+        </div>
+
+        @*<div class="content-wrapper">
+            <div id="tabs" class="easyui-tabs" border="false" fit="true">
+                <div title="欢迎使用">
+                    <h1 style="font-size:24px;">欢迎使用项目管理系统</h1>
+                </div>
+
+            </div>
+        </div>*@
+        <div class="content-wrapper">
+            <div id="tabs">
+                @*<div title="欢迎使用" style="padding:20px;overflow:hidden; color:red; ">
+                    <h1 style="font-size:24px;">欢迎使用项目管理系统</h1>
+                </div>*@
+
+            </div>
+        </div>
+
+    </div>
+
+    <div id="mm" class="easyui-menu" style="width:150px;">
+        <div id="mm-tabupdate">刷新</div>
+        <div class="menu-sep"></div>
+        <div id="mm-tabclose">关闭</div>
+        <div id="mm-tabcloseall">全部关闭</div>
+        <div id="mm-tabcloseother">除此之外全部关闭</div>
+        <div class="menu-sep"></div>
+        <div id="mm-tabcloseright">当前页右侧全部关闭</div>
+        <div id="mm-tabcloseleft">当前页左侧全部关闭</div>
+        <div class="menu-sep"></div>
+        <div id="mm-exit">退出</div>
+    </div>
+</body>
+</html>
+
+<script>
+    
+    $(function () {
+
+        
+
+        tabPage.initTabPage("tabs");
+
+        $("#switchSkin").click(function () {
+            js.windowOpen('切换主题', '/Home/Skin', 500, 400, false);
+        });
+
+        $("#userInfo").click(function () {
+            js.windowOpen('切换主题', '/Home/Skin', 500, 400, false);
+        });
+
+        //$(".sidebar-toggle").on("click", function () {
+        //    WN.addTranEvent($movebox.get(0), callback);
+        //});
+
+        //var $movebox = $(".main-sidebar");
+
+        //function callback() {
+        //    tabPage.SetResize();
+        //}
+
+        $(".sidebar-toggle").click(function () {
+            var mainsiderX = $(".main-sidebar").width();
+            if (mainsiderX > 50) {
+                mainsiderX = 50;
+            } else {
+                mainsiderX = 230;
+            }
+            //var twidth = $("#tabs").width();
+            //$(".tabpanel_content").animate({
+            //    width: twidth - mainsiderX + 'px'
+            //});
+            tabPage.SetResize(mainsiderX);
+            
+        });
+
+        //function show() {
+        //    var date = new Date(); //日期对象
+        //    var now = "";
+        //    now = date.getFullYear() + "年"; //读英文就行了
+        //    now = now + (date.getMonth() + 1) + "月"; //取月的时候取的是当前月-1如果想取当前月+1就可以了
+        //    now = now + date.getDate() + "日 ";
+        //    now = now + date.getHours() + ":";
+        //    now = now + date.getMinutes() + ":";
+        //    now = now + date.getSeconds() + "";
+        //    document.getElementById("nowTime").innerHTML = now; //div的html是now这个字符串
+        //}
+        
+        //show();
+        //t = setInterval(show, 1000);
+    });
+</script>

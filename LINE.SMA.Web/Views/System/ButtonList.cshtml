@@ -1,0 +1,153 @@
+﻿@{
+    ViewBag.Title = "ButtonList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="box-body">
+    <div id="searchbar" class="searchbar" style="text-align:left;">
+        <a id="btnSearch" author="S" class="btn btn-primary">查询</a>
+        <a id="btnAdd" author="A" class="btn btn-success">新增</a>
+        <a id="btnAdd" author="E" class="btn btn-info">编辑</a>
+        <a id="btnDel" author="D" class="btn btn-danger">删除</a>
+        <a id="btnDel" author="P" class="btn btn-success">导出</a>
+    </div>
+    <div id="grid">
+    </div>
+</div>
+
+<table class="pagetable" style="display:none;">
+    <tr>
+        <td class="title">
+            <span style="color: Red;">*</span>编码：
+        </td>
+        <td>
+            <input type="text" id="test1" />
+        </td>
+    </tr>
+    <tr>
+        <td class="title">
+            <span style="color: Red;">*</span>按钮名称：
+        </td>
+        <td>
+            <input type="text" id="test1" />
+        </td>
+    </tr>
+    <tr>
+        <td class="title">
+            <span style="color: Red;">*</span>英文名称：
+        </td>
+        <td>
+            <input type="text" id="test1" />
+        </td>
+    </tr>
+    <tr>
+        <td class="title">
+            <span style="color: Red;"></span>图标：
+        </td>
+        <td>
+            <input type="text" id="test1" />
+        </td>
+    </tr>
+    <tr>
+        <td class="title">
+            <span style="color: Red;"></span>排序：
+        </td>
+        <td>
+            <input type="text" id="test1" />
+        </td>
+    </tr>
+    <tr>
+        <td class="title"></td>
+        <td>
+            <a id="btnSearch" class="btn btn-primary">确定</a>
+        </td>
+    </tr>
+</table>
+
+<script>
+    $(function () {
+
+        $("#btnSearch").click(function () {
+            search();
+
+            ExportExcel();
+            //$('#grid').datagrid('toExcel', 'datagrid.xls');
+            //$('#grid').datagrid('print', 'DataGrid');
+        });
+
+        $("#btnAdd").click(function () {
+
+            //js.openPage("/Menu/MenuList", "编辑界面");//增加tab
+            js.contentOpen('按钮界面', $(".pagetable"), 500, 350, false);
+        });
+
+        $("#btnDel").click(function () {
+
+            dataExt.getSelectIds();
+        });
+
+        function search(gridId, parameter) {
+
+            dataExt.loadGrid();
+        }
+
+        var reportName = "Sys_GetButtonList";
+        var dataUrl = "/Common/GetPageData?reportName=" + reportName;
+
+        $('#grid').LineGrid({
+            url: "/Common/GetPageData?reportName=" + reportName,
+            queryParams: {},
+            singleSelect: false,
+            fitColumns: true,
+            columns: [[
+                { field: 'ck', title: '选择', checkbox: true },
+                { field: 'Id', title: '编码', align: 'center', width: 100 },
+                //{ field: 'BtnCode', title: '按钮编号', align: 'center', width: 100 },
+                { field: "BtnName", title: "按钮名称", align: 'center', width: 140 },
+                { field: "EngName", title: "英文名", align: 'center', width: 140 },
+                { field: "Icon", title: "图标", align: 'center', width: 140 },
+                { field: "OrderId", title: "排序", align: 'center', width: 140 },
+                { field: "CreateTime", title: "创建时间", align: 'center', width: 180 },
+            ]]
+        });
+
+
+
+
+        function opFormat(value, row) {
+            var html = "";
+            html += "<a href=\"javascript:void(0)\" class=\"btn btn-xs btn-info\" onclick=\"\">编辑</a>";
+            return html;
+        }
+
+        function ExportExcel() {
+            // 获取字段fileds
+            var fields = $('#grid').datagrid('getColumnFields');
+
+            var fieldArr = new Array();
+
+            for (var i = 0; i < fields.length; i++) {
+                var field = fields[i];
+                var col = $('#grid').datagrid('getColumnOption', field);
+
+                if (field == 'ck' || field == 'op') {
+                    continue;
+                }
+                
+                var obj = {};
+                obj['Field'] = field;
+                obj['Title'] = col.title;
+                obj['Width'] = col.width;
+                obj['Align'] = col.align;
+
+                fieldArr.push(obj);
+            }
+
+        }
+
+
+    });
+
+</script>
+
+

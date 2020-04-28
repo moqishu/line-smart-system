@@ -1,0 +1,431 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Reps>
+  <Rep key="Detail_GetInoutList" Remark="获取进出明细">
+    <ReportSql>
+      <![CDATA[
+        SELECT 
+            tid.Id,
+            tid.trafficId,
+            tid.carplateFull,
+            tid.carplateAsi,
+            tid.etcNo,
+            tid.capTime,
+            tid.capImg,
+            tid.nodeName,
+            tid.nodeId,
+            tid.nodeType,
+            CASE tid.nodeType WHEN 1 THEN '入口' WHEN 2 THEN '出口' ELSE '场内' END AS nodeTypeName,
+            tid.carStyleName,
+            tid.carStyle,
+            tid.carTypeName,
+            tid.carType,
+            tid.carColor,
+            tid.plateColor,
+            tid.carLogo,
+            tid.remark,
+            tid.serialNo,
+            tid.recogEnable,
+            tid.multiRecog,
+            IFNULL(tsc2.TypeName,'') AS multiRecogName,
+            tid.passType,
+            IFNULL(tsc.TypeName,'') AS passTypeName,
+            tid.passReason,
+            IFNULL(tsc1.TypeName,'') AS passReasonName
+        FROM t_inout_detail tid
+        LEFT JOIN t_sys_config tsc ON tid.passType = tsc.TypeValue AND tsc.MainType=0
+        LEFT JOIN t_sys_config tsc1 ON tid.passType = tsc1.MainType AND tsc1.TypeValue = tid.passReason
+        LEFT JOIN t_sys_config tsc2 ON tid.multiRecog = tsc2.TypeValue AND tsc2.MainType=4
+        WHERE @Param
+      ]]>
+    </ReportSql>
+    <OrderSql>
+      <![CDATA[
+        
+      ]]>
+    </OrderSql>
+    <TotalSql>
+      <![CDATA[
+        SELECT COUNT(0)
+        FROM t_inout_detail tid
+        WHERE @Param
+      ]]>
+    </TotalSql>
+    <Dynamic property="@Param">
+      <c property="trafficId" prepend="AND" type="">
+        <![CDATA[
+         tid.trafficId=@trafficId
+        ]]>
+      </c>
+      <c property="carplateFull" prepend="AND" type="LIKE">
+        <![CDATA[
+         tid.carplateFull LIKE @carplateFull
+        ]]>
+      </c>
+      <c property="etcNo" prepend="AND" type="LIKE">
+        <![CDATA[
+         tid.etcNo LIKE @etcNo
+        ]]>
+      </c>
+      <c property="nodeType" prepend="AND" type="">
+        <![CDATA[
+         tid.nodeType = @nodeType
+        ]]>
+      </c>
+      <c property="nodeName" prepend="AND" type="">
+        <![CDATA[
+         tid.nodeId = @nodeName
+        ]]>
+      </c>
+      <c property="multiRecog" prepend="AND" type="">
+        <![CDATA[
+         tid.multiRecog = @multiRecog
+        ]]>
+      </c>
+      <c property="passType" prepend="AND" type="">
+        <![CDATA[
+         tid.passType = @passType
+        ]]>
+      </c>
+      <c property="passReason" prepend="AND" type="">
+        <![CDATA[
+         tid.passReason = @passReason
+        ]]>
+      </c>
+      <c property="StartTime" prepend="AND" type="">
+        <![CDATA[
+          tid.capTime>=@StartTime
+        ]]>
+      </c>
+      <c property="EndTime" prepend="AND" type="">
+        <![CDATA[
+          tid.capTime<=@EndTime
+        ]]>
+      </c>
+    </Dynamic>
+  </Rep>
+
+  <Rep key="Detail_GetTrafficDetail" Remark="获取车次">
+    <ReportSql>
+      <![CDATA[
+        SELECT 
+          ttd.id ,
+          ttd.trafficId,
+          ttd.carplateFull,
+          ttd.carplateAsi,
+          ttd.etcNo,
+          ttd.carTypeName,
+          ttd.carStyleName,
+          ttd.comeTime,
+          ttd.comePlace,
+          ttd.comeImage,
+          ttd.outTime,
+          ttd.outPlace,
+          ttd.outImage,
+          ttd.remark,
+          ttd.createTime,
+          CASE WHEN ttd.comeTime='' OR ttd.outTime='' THEN ' ' ELSE
+          f_Get_SecToTime(TIMESTAMPDIFF(SECOND,ttd.comeTime,ttd.outTime)) END AS ParkTime,
+          (SELECT IFNULL(SUM(tod.payMoney/100),0) FROM t_order_detail tod WHERE tod.trafficId=ttd.trafficId AND tod.trafficId>0) AS payMoney,
+          (SELECT IFNULL(SUM(tod.ticketMoney/100),0) FROM t_order_detail tod WHERE tod.trafficId=ttd.trafficId AND tod.trafficId>0) AS ticketMoney,
+          (SELECT IFNULL(SUM(tod.ticketTime/100),0) FROM t_order_detail tod WHERE tod.trafficId=ttd.trafficId AND tod.trafficId>0) AS ticketTime,
+          (SELECT IFNULL(SUM(tod.freeMoney/100),0) FROM t_order_detail tod WHERE tod.trafficId=ttd.trafficId AND tod.trafficId>0) AS freeMoney
+          FROM t_traffic_detail ttd
+          WHERE @Param
+      ]]>
+    </ReportSql>
+    <OrderSql>
+      <![CDATA[
+        
+      ]]>
+    </OrderSql>
+    <TotalSql>
+      <![CDATA[
+        SELECT COUNT(0)
+        FROM t_traffic_detail ttd
+        WHERE @Param
+      ]]>
+    </TotalSql>
+    <Dynamic property="@Param">
+      <c property="trafficId" prepend="AND" type="">
+        <![CDATA[
+         ttd.trafficId=@trafficId
+        ]]>
+      </c>
+      <c property="carplateFull" prepend="AND" type="LIKE">
+        <![CDATA[
+         (ttd.carplateFull LIKE @carplateFull OR ttd.carplateAsi LIKE @carplateFull)
+        ]]>
+      </c>
+      <c property="etcNo" prepend="AND" type="LIKE">
+        <![CDATA[
+         ttd.etcNo LIKE @etcNo
+        ]]>
+      </c>
+      <c property="UserName" prepend="AND" type="LIKE">
+        <![CDATA[
+         bu.UserName LIKE @UserName
+        ]]>
+      </c>
+      <c property="StartTime" prepend="AND" type="">
+        <![CDATA[
+          ttd.comeTime>=@StartTime
+        ]]>
+      </c>
+      <c property="EndTime" prepend="AND" type="">
+        <![CDATA[
+          ttd.comeTime<=@EndTime
+        ]]>
+      </c>
+    </Dynamic>
+  </Rep>
+
+  <Rep key="Detail_GetOrderDetail" Remark="获取交易明细">
+    <ReportSql>
+      <![CDATA[
+       SELECT 
+          tod.id,
+          tod.trafficId,
+          tod.carplateFull,
+          tod.etcNo,
+          tod.carplateAsi,
+          tod.orderNo,
+          tod.busOrderNo,
+          DATE_FORMAT(tod.comeTime,'%Y-%m-%d %T') AS comeTime,
+          tod.comeImage,
+          ROUND(tod.payMoney/100,2) AS payMoney,
+          ROUND(tod.chargeMoney/100,2) AS chargeMoney,
+          ROUND(tod.ticketMoney/100,2) AS ticketMoney,
+          tod.ticketTime,
+          tod.ticketCount,
+          ROUND(tod.freeMoney/100,2) AS freeMoney,
+          tod.remark,
+          tod.payTime,
+          tod.createTime,
+          tod.payPlatforme,
+          tod.payType,
+          tod.payMethod,
+          IFNULL(tpt.TypeName,'其他') AS platName,
+          IFNULL(tpt2.TypeName,'其他') AS payTypeName,
+          IFNULL(tpt3.TypeName,'其他') AS payMethodName
+          FROM t_order_detail tod
+          LEFT JOIN t_plat_type tpt ON tod.payPlatforme = tpt.TypeValue AND tpt.MainType=1
+          LEFT JOIN t_plat_type tpt2 ON tod.payType = tpt2.TypeValue AND tpt2.MainType=2
+          LEFT JOIN t_plat_type tpt3 ON tod.payMethod = tpt3.TypeValue AND tpt3.MainType=3
+          WHERE @Param
+      ]]>
+    </ReportSql>
+    <OrderSql>
+      <![CDATA[
+        
+      ]]>
+    </OrderSql>
+    <TotalSql>
+      <![CDATA[
+        SELECT COUNT(0)
+        FROM t_order_detail tod
+        WHERE @Param
+      ]]>
+    </TotalSql>
+    <FootSql>
+      <![CDATA[
+        SELECT 
+        '合计' AS trafficId,
+         ROUND(SUM(IFNULL(tod.payMoney,0))/100,2) AS payMoney,
+         ROUND(SUM(IFNULL(tod.ticketMoney,0))/100,2) AS ticketMoney,
+         ROUND(SUM(IFNULL(tod.ticketTime,0))/100,2) AS ticketTime,
+         ROUND(SUM(IFNULL(tod.freeMoney,0))/100,2) AS freeMoney,
+         ROUND(SUM(IFNULL(tod.chargeMoney,0))/100,2) AS chargeMoney
+        
+        FROM t_order_detail tod
+        WHERE @Param
+      ]]>
+    </FootSql>
+    <Dynamic property="@Param">
+      <c property="trafficId" prepend="AND" type="">
+        <![CDATA[
+         tod.trafficId=@trafficId
+        ]]>
+      </c>
+      <c property="carplateFull" prepend="AND" type="LIKE">
+        <![CDATA[
+         (tod.carplateFull LIKE @carplateFull OR tod.carplateAsi LIKE @carplateFull)
+        ]]>
+      </c>
+      <c property="etcNo" prepend="AND" type="LIKE">
+        <![CDATA[
+         tod.etcNo LIKE @etcNo
+        ]]>
+      </c>
+      <c property="orderNo" prepend="AND" type="LIKE">
+        <![CDATA[
+         tod.orderNo LIKE @orderNo
+        ]]>
+      </c>
+      <c property="payPlatforme" prepend="AND" type="">
+        <![CDATA[
+         tod.payPlatforme=@payPlatforme
+        ]]>
+      </c>
+      <c property="payType" prepend="AND" type="">
+        <![CDATA[
+         tod.payType=@payType
+        ]]>
+      </c>
+      <c property="payMethod" prepend="AND" type="">
+        <![CDATA[
+         tod.payMethod=@payMethod
+        ]]>
+      </c>
+      <c property="StartTime" prepend="AND" type="">
+        <![CDATA[
+          tod.payTime>=@StartTime
+        ]]>
+      </c>
+      <c property="EndTime" prepend="AND" type="">
+        <![CDATA[
+          tod.payTime<=@EndTime
+        ]]>
+      </c>
+    </Dynamic>
+  </Rep>
+
+  <Rep key="Detail_GetOrderDaily" Remark="获取交易明细日汇总">
+    <ReportSql>
+      <![CDATA[
+       SELECT 
+          UUID() AS Id,
+          DATE_FORMAT(tod.payTime,'%Y-%m-%d') AS payTime,
+          tod.incomeType,
+          CASE tod.incomeType WHEN 1 THEN '临停缴费' WHEN 2 THEN '固定车续费' WHEN 3 THEN '商家充值' END AS incomeName,
+          tod.payPlatforme,
+          tpt.TypeName AS platName,
+          tod.payType,
+          IFNULL(tpt2.TypeName,'其他') AS payTypeName,
+          ROUND(tod.chargeMoney/100,2) AS chargeMoney,
+          ROUND(tod.refundMoney/100,2) AS refundMoney,
+          -- (SELECT IFNULL(SUM(ROUND(tr.paiddata/100,2)),0) FROM t_refundorder tr WHERE DATE_FORMAT(tr.refundTime,'%Y-%m-%d') = DATE_FORMAT(tod.payTime,'%Y-%m-%d') AND tod.payPlatforme=2000 AND tod.payType=1004) AS refundMoney,
+          MAX(IF(tod.payMethod = '1001', ROUND(tod.payMoney/100,2), 0)) AS PM_1001,
+          MAX(IF(tod.payMethod = '1002', ROUND(tod.payMoney/100,2), 0)) AS PM_1002,
+          MAX(IF(tod.payMethod = '1003', ROUND(tod.payMoney/100,2), 0)) AS PM_1003,
+          MAX(IF(tod.payMethod = '1004', ROUND(tod.payMoney/100,2), 0)) AS PM_1004,
+          MAX(IF(tod.payMethod = '1005', ROUND(tod.payMoney/100,2), 0)) AS PM_1005,
+          MAX(IF(tod.payMethod = '1006', ROUND(tod.payMoney/100,2), 0)) AS PM_1006,
+          MAX(IF(tod.payMethod = '1007', ROUND(tod.payMoney/100,2), 0)) AS PM_1007,
+          MAX(IF(tod.payMethod = '1008', CONCAT(ROUND(tod.ticketMoney/100,1),'元|',ROUND(tod.ticketTime/3600,1),'小时'), 0)) AS PM_1008,
+          MAX(IF(tod.payMethod = '1009', CONCAT(ROUND(tod.ticketMoney/100,1),'元|',ROUND(tod.ticketTime/3600,1),'小时'), 0)) AS PM_1009,
+          MAX(IF(tod.payMethod = '1010', CONCAT(ROUND(tod.ticketMoney/100,1),'元|',ROUND(tod.ticketTime/3600,1),'小时'), 0)) AS PM_1010,
+          MAX(IF(tod.payMethod = '1011', CONCAT(ROUND(tod.ticketMoney/100,1),'元|',ROUND(tod.ticketTime/3600,1),'小时'), 0)) AS PM_1011,
+          MAX(IF(tod.payMethod = '1012', ROUND(tod.payMoney/100,2), 0)) AS PM_1012,
+          MAX(IF(tod.payMethod = '1013', ROUND(tod.payMoney/100,2), 0)) AS PM_1013,
+          MAX(IF(tod.payMethod = '1014', ROUND(tod.payMoney/100,2), 0)) AS PM_1014,
+          MAX(IF(tod.payMethod = '1015', ROUND(tod.payMoney/100,2), 0)) AS PM_1015,
+          MAX(IF(tod.payMethod = '1016', ROUND(tod.payMoney/100,2), 0)) AS PM_1016,
+          MAX(IF(tod.payMethod = '1017', ROUND(tod.payMoney/100,2), 0)) AS PM_1017,
+          SUM(ROUND((tod.payMoney-tod.refundMoney)/100,2)) AS subTotal,
+          (SELECT SUM(ROUND((tod1.payMoney-tod1.refundMoney)/100,2)) FROM t_order_daily tod1 WHERE DATE_FORMAT(tod1.payTime,'%Y-%m-%d') = DATE_FORMAT(tod.payTime,'%Y-%m-%d')) AS totalMoney
+        FROM t_order_daily tod
+        LEFT JOIN t_plat_type tpt ON tod.payPlatforme=tpt.TypeValue AND tpt.MainType=1 AND tpt.IsDelete=0
+        LEFT JOIN t_plat_type tpt2 ON tod.payType=tpt2.TypeValue AND tpt2.MainType=2 AND tpt2.IsDelete=0
+        WHERE @Param
+        GROUP BY tod.payTime,tod.incomeType,tod.payPlatforme,tod.payType
+      ]]>
+    </ReportSql>
+    <OrderSql>
+      <![CDATA[
+        
+      ]]>
+    </OrderSql>
+    <TotalSql>
+      <![CDATA[
+        SELECT COUNT(0) FROM (
+        SELECT tod.payTime
+        FROM t_order_daily tod
+        LEFT JOIN t_plat_type tpt ON tod.payPlatforme=tpt.TypeValue AND tpt.MainType=1 AND tpt.IsDelete=0
+        LEFT JOIN t_plat_type tpt2 ON tod.payType=tpt2.TypeValue AND tpt2.MainType=2 AND tpt2.IsDelete=0
+        WHERE @Param
+        GROUP BY tod.payTime,tod.payPlatforme,tod.payType ) AS A
+      ]]>
+    </TotalSql>
+    <FootSql>
+      <![CDATA[
+         SELECT 
+          '合计' AS payTime,
+          
+          SUM(ROUND(tod.chargeMoney/100,2)) AS chargeMoney,
+          SUM(ROUND(tod.refundMoney/100,2)) AS refundMoney,
+          -- (SELECT IFNULL(SUM(ROUND(tr.paiddata/100,2)),0) FROM t_refundorder tr WHERE DATE_FORMAT(tr.refundTime,'%Y-%m-%d') = DATE_FORMAT(tod.payTime,'%Y-%m-%d')) AS refundMoney,
+          SUM(IF(tod.payMethod = '1001', ROUND(tod.payMoney/100,2), 0)) AS PM_1001,
+          SUM(IF(tod.payMethod = '1002', ROUND(tod.payMoney/100,2), 0)) AS PM_1002,
+          SUM(IF(tod.payMethod = '1003', ROUND(tod.payMoney/100,2), 0)) AS PM_1003,
+          SUM(IF(tod.payMethod = '1004', ROUND(tod.payMoney/100,2), 0)) AS PM_1004,
+          SUM(IF(tod.payMethod = '1005', ROUND(tod.payMoney/100,2), 0)) AS PM_1005,
+          SUM(IF(tod.payMethod = '1006', ROUND(tod.payMoney/100,2), 0)) AS PM_1006,
+          SUM(IF(tod.payMethod = '1007', ROUND(tod.payMoney/100,2), 0)) AS PM_1007,
+          CAST(CONCAT(SUM(IF(tod.payMethod = '1008', ROUND(tod.ticketMoney/100,1),0)),'元|' ,SUM(IF(tod.payMethod = '1008', ROUND(tod.ticketTime/3600,2),0)),'小时') AS CHAR) AS PM_1008,
+          CAST(CONCAT(SUM(IF(tod.payMethod = '1009', ROUND(tod.ticketMoney/100,1),0)),'元|' ,SUM(IF(tod.payMethod = '1009', ROUND(tod.ticketTime/3600,2),0)),'小时') AS CHAR) AS PM_1009,
+          CAST(CONCAT(SUM(IF(tod.payMethod = '1010', ROUND(tod.ticketMoney/100,1),0)),'元|' ,SUM(IF(tod.payMethod = '1010', ROUND(tod.ticketTime/3600,2),0)),'小时') AS CHAR) AS PM_1010,
+          CAST(CONCAT(SUM(IF(tod.payMethod = '1011', ROUND(tod.ticketMoney/100,1),0)),'元|' ,SUM(IF(tod.payMethod = '1011', ROUND(tod.ticketTime/3600,2),0)),'小时') AS CHAR) AS PM_1011,
+          SUM(IF(tod.payMethod = '1012', ROUND(tod.payMoney/100,2), 0)) AS PM_1012,
+          SUM(IF(tod.payMethod = '1013', ROUND(tod.payMoney/100,2), 0)) AS PM_1013,
+          SUM(IF(tod.payMethod = '1014', ROUND(tod.payMoney/100,2), 0)) AS PM_1014,
+          SUM(IF(tod.payMethod = '1015', ROUND(tod.payMoney/100,2), 0)) AS PM_1015,
+          SUM(IF(tod.payMethod = '1016', ROUND(tod.payMoney/100,2), 0)) AS PM_1016,
+          SUM(IF(tod.payMethod = '1017', ROUND(tod.payMoney/100,2), 0)) AS PM_1017,
+          SUM(ROUND((tod.payMoney-tod.refundMoney)/100,2)) AS subTotal,
+          SUM(ROUND((tod.payMoney-tod.refundMoney)/100,2)) AS totalMoney
+        FROM t_order_daily tod
+        LEFT JOIN t_plat_type tpt ON tod.payPlatforme=tpt.TypeValue AND tpt.MainType=1 AND tpt.IsDelete=0
+        LEFT JOIN t_plat_type tpt2 ON tod.payType=tpt2.TypeValue AND tpt2.MainType=2 AND tpt2.IsDelete=0
+        WHERE @Param
+      ]]>
+    </FootSql>
+    <Dynamic property="@Param">
+      <c property="trafficId" prepend="AND" type="">
+        <![CDATA[
+         tod.trafficId=@trafficId
+        ]]>
+      </c>
+      <c property="carplateFull" prepend="AND" type="LIKE">
+        <![CDATA[
+         (tod.carplateFull LIKE @carplateFull OR tod.carplateAsi LIKE @carplateFull)
+        ]]>
+      </c>
+      <c property="etcNo" prepend="AND" type="LIKE">
+        <![CDATA[
+         tod.etcNo LIKE @etcNo
+        ]]>
+      </c>
+      <c property="orderNo" prepend="AND" type="LIKE">
+        <![CDATA[
+         tod.orderNo LIKE @orderNo
+        ]]>
+      </c>
+      <c property="payPlatforme" prepend="AND" type="">
+        <![CDATA[
+         tod.payPlatforme=@payPlatforme
+        ]]>
+      </c>
+      <c property="payType" prepend="AND" type="">
+        <![CDATA[
+         tod.payType=@payType
+        ]]>
+      </c>
+      <c property="payMethod" prepend="AND" type="">
+        <![CDATA[
+         tod.payMethod=@payMethod
+        ]]>
+      </c>
+      <c property="StartTime" prepend="AND" type="">
+        <![CDATA[
+          tod.payTime>=@StartTime
+        ]]>
+      </c>
+      <c property="EndTime" prepend="AND" type="">
+        <![CDATA[
+          tod.payTime<=@EndTime
+        ]]>
+      </c>
+    </Dynamic>
+  </Rep>
+  
+</Reps>

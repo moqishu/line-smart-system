@@ -1,0 +1,45 @@
+﻿@using LINE.SMA.Infrastructure;
+@using LINE.SMA.Model;
+@using LINE.SMA.Service;
+@{
+    ViewBag.Title = "InoutDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    InoutDetail detail = IocContainer.Resolve<SysBaseService>().GetInoutDetail(ViewBag.Id);
+}
+
+<table class="pagetable">
+    <tr>
+        <td rowspan="2">
+            <img id="imgName" src="GetImgSrc('@detail.capImg')" />
+        </td>
+        <td>
+            @ViewBag.Id
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+    </tr>
+</table>
+
+
+
+<script>
+    function GetImgSrc(imgname) {
+        if (imgname.length >= 36) {
+            var mainfile = "/KT_ServerSoft/CarPlateRecognise/";
+            var ymd = imgname.substring(0, 8);
+            var hourstr = imgname.substring(8, 10);
+            var arr = imgname.split('_');
+            var ipadrr = arr[1];
+            var imgsrc = mainfile + ymd + "/" + ipadrr + "/" + hourstr + "/" + imgname;
+            return imgsrc;
+        } else {
+            var mainfile1 = "/FindCarSystem/RecognCarPlateFile/" + imgname.substring(0, 8) + "/" + imgname.substring(8, 10) + "/" + imgname.substring(10, 16) + "/" + imgname;
+            return mainfile1;
+        }
+    }
+
+</script>
+

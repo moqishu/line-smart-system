@@ -1,0 +1,176 @@
+﻿@using LINE.SMA.Infrastructure;
+@using LINE.SMA.Service;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var nodeInfoList = IocContainer.Resolve<SysBaseService>().GetNodeInfo();
+    var sysConfigList = IocContainer.Resolve<SysBaseService>().GetSysConfigs("");
+}
+
+<div class="page-content">
+    <div id="searchbar" class="searchbar">
+        <input type="text" id="trafficId" col="trafficId" placeholder="车次号">
+        <input type="text" id="carplateFull" col="carplateFull" placeholder="车牌号">
+        <input type="text" id="etcNo" col="etcNo" placeholder="EtcNo">
+        <select id="nodeType" col="nodeType" class="form-control select2" data-placeholder="请选择口类型">
+            <option value=""></option>
+            <option value="1">入口</option>
+            <option value="2">出口</option>
+        </select>
+        <select id="nodeName" col="nodeName" class="form-control select2" data-placeholder="请选择进出地点">
+            <option value=""></option>
+            @foreach (var li in nodeInfoList)
+            {
+                <option value="@li.Value">@li.Text</option>
+            }
+        </select>
+        <select id="multiRecog" col="multiRecog" class="form-control select2" data-placeholder="请选择识别标识">
+            <option value=""></option>
+            <option value=""></option>
+            @foreach (var li in sysConfigList.Where(c => c.MainType == 4))
+            {
+                <option value="@li.TypeValue">@li.TypeName</option>
+            }
+        </select>
+        <select id="passType" col="passType" class="form-control select2" data-placeholder="请选择放行类型">
+            <option value=""></option>
+            <option value=""></option>
+            @foreach (var li in sysConfigList.Where(c => (c.SubType == 1 || c.SubType == 2 || c.SubType == 3) && c.MainType == 0))
+            {
+                <option value="@li.TypeValue">@li.TypeName</option>
+            }
+        </select>
+        <select id="passReason" col="passReason" class="form-control select2" data-placeholder="请选择放行原因">
+            @*<option value=""></option>
+            @foreach (var li in sysConfigList.Where(c => (c.MainType == 1 || c.MainType == 2 || c.MainType == 3)))
+            {
+                <option value="@li.TypeValue">@li.TypeName</option>
+            }*@
+        </select>
+        <input class="Wdate" col="StartTime" type="text" placeholder="开始时间" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+        <input class="Wdate" col="EndTime" type="text" placeholder="结束时间" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+
+        <a id="btnSearch" author="S" class="btn btn-sm btn-primary">查询</a>
+    </div>
+    <div id="grid">
+    </div>
+</div>
+<script>
+    function OpenPic(id) {
+        js.windowOpen('进出图片查看', '/Report/InoutDetail?id=' + id, 600, 500, false);
+    }
+    $(function () {
+        var reportName = "Detail_GetInoutList";
+        $('#grid').LineGrid({
+            url: "/Common/GetPageData?reportName=" + reportName,
+            queryParams: GetParams(),
+            //singleSelect: false,
+            //fitColumns: true,
+
+            columns: [[
+                //{ field: 'ck', title: '选择', checkbox: true },
+                { field: 'Id', title: '编号', align: 'center', width: 100 },
+                { field: 'trafficId', title: '车次号', align: 'center', width: 150 },
+                { field: 'carplateFull', title: '车牌号码', align: 'center', width: 100 },
+                { field: 'multiRecogName', title: '车牌识别', align: 'center', width: 100 },
+                { field: "etcNo", title: "EtcNo", align: 'center', width: 140 },
+                { field: "capTime", title: "进出时间", align: 'center', width: 180 },
+                { field: "nodeName", title: "进出地点", align: 'center', width: 200 },
+                { field: "nodeTypeName", title: "口类型", align: 'center', width: 100 },
+                { field: "carTypeName", title: "卡片类型", align: 'center', width: 140 },
+                { field: "carStyleName", title: "车辆类型", align: 'center', width: 140 },
+                { field: "plateColor", title: "车牌颜色", align: 'center', width: 100 },
+                { field: "recogEnable", title: "识别度", align: 'center', width: 120 },
+                { field: "passTypeName", title: "放行类型", align: 'center', width: 120 },
+                { field: "passReasonName", title: "放行原因", align: 'center', width: 120 },
+                { field: "remark", title: "备注", align: 'center', width: 180 },
+                { field: "capImg", title: "进出图片", formatter: opFormat, align: 'center', width: 180 },
+            ]],
+            onDblClickRow: function (index, row) {
+                OpenPic(row.Id);
+            }
+        });
+
+        function opFormat(value, row) {
+            var html = "";
+            html += "<a href=\"javascript:void(0)\" onclick=\"OpenPic(" + row.Id + ")\">预览</a>";
+            return html;
+        }
+
+
+
+        $("#nodeType").on("change", function (e) {
+            $('#nodeName').empty();
+
+            $.ajax({
+                type: "GET",
+                url: "/Report/GetNodeName",
+                data: { "nodeType": $("#nodeType").val() },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $('#nodeName').append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        $('#nodeName').append("<option value='" + item.Id + "'>" + item.nodeName + "</option>");
+                    });
+                }
+            });
+        });
+
+        $("#passType").on("change", function (e) {
+            $('#passReason').empty();
+
+            var data = $("#passType").val();
+            if (data == "") {
+                data = "1,2,3";
+            }
+
+            $.ajax({
+                type: "GET",
+                url: "/Report/GetSysConfigs",
+                data: { "mainTypes": data },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $('#passReason').append('<option value=""></option>');
+                    $.each(data, function (index, item) {
+                        $('#passReason').append("<option value='" + item.TypeValue + "'>" + item.TypeName + "</option>");
+                    });
+                }
+            });
+        });
+
+        $("#btnSearch").click(function () {
+            search();
+
+        });
+
+        function search(gridId, parameter) {
+
+            dataExt.loadGrid("grid", GetParams());
+        }
+
+        function GetParams() {
+            var result = $(".searchbar").GetParameter();
+            return result;
+        }
+
+        function GetImgSrc(imgname) {
+            if (imgname.length >= 36) {
+                var mainfile = "/KT_ServerSoft/CarPlateRecognise/";
+                var ymd = imgname.substring(0, 8);
+                var hourstr = imgname.substring(8, 10);
+                var arr = imgname.split('_');
+                var ipadrr = arr[1];
+                var imgsrc = mainfile + ymd + "/" + ipadrr + "/" + hourstr + "/" + imgname;
+                return imgsrc;
+            } else {
+                var mainfile1 = "/FindCarSystem/RecognCarPlateFile/" + imgname.substring(0, 8) + "/" + imgname.substring(8, 10) + "/" + imgname.substring(10, 16) + "/" + imgname;
+                return mainfile1;
+            }
+        }
+    });
+</script>
+
+
+

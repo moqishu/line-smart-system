@@ -1,0 +1,221 @@
+﻿@using LINE.SMA.Infrastructure;
+@using LINE.SMA.Service;
+@{
+    ViewBag.Title = "支付方式日报表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var platTypeList = IocContainer.Resolve<SysBaseService>().GetPlatTypeList();
+}
+
+<div class="page-content">
+    <div id="searchbar" class="searchbar">
+        <select id="payPlatforme" col="payPlatforme" class="form-control select2" data-placeholder="请选择平台">
+            <option value=""></option>
+            @foreach (var li in platTypeList.Where(c => c.MainType == 1))
+            {
+                <option value="@li.TypeValue">@li.TypeName</option>
+            }
+        </select>
+        <select id="payType" col="payType" class="form-control select2" data-placeholder="请选择缴费终端">
+            <option value=""></option>
+            @foreach (var li in platTypeList.Where(c => c.MainType == 2))
+            {
+                <option value="@li.TypeValue">@li.TypeName</option>
+            }
+        </select>
+        @*<select id="inoutNode" class="form-control select2" data-placeholder="请选择支付方式">
+            <option value=""></option>
+            @foreach (var li in platTypeList.Where(c => c.MainType == 3))
+            {
+                <option value="@li.TypeValue">@li.TypeName</option>
+            }
+        </select>*@
+        <input class="Wdate" col="StartTime" type="text" placeholder="开始时间" onclick="WdatePicker()" />
+        <input class="Wdate" col="EndTime" type="text" placeholder="结束时间" onclick="WdatePicker()" />
+
+        <a id="btnSearch" author="S" class="btn btn-sm btn-primary">查询</a>
+        <a id="btnSearch" author="S" class="btn btn-sm btn-success">显示设置</a>
+    </div>
+    <div id="grid">
+    </div>
+</div>
+<script>
+
+    $(function () {
+
+        var columns = [
+            { field: 'Id', title: '编号', hidden: true, align: 'center', width: 100 },
+            { field: 'payTime', title: '日期', align: 'center', width: 150 },
+            { field: 'incomeName', title: '收入构成', align: 'center', width: 120 },
+            { field: 'platName', title: '平台', align: 'center', width: 120 },
+            { field: 'payTypeName', title: '缴费终端', align: 'center', width: 120 }
+        ];
+        $.ajax({
+            type: "GET",
+            url: "/Report/GetPlatList",
+            data: {},
+            dataType: "json",
+            async:false,
+            success: function (data) {
+                console.log(data);
+                var html = '';
+                $.each(data, function (index, item) {
+                    //comment.TypeName
+                    columns.push({ "field": 'PM_' + item.TypeValue, "title": item.TypeName, halign: 'center',align: 'right', "width": 120 }); 
+                });
+            }
+        });
+        columns.push({ field: 'chargeMoney', title: '找零金额', halign: 'center', align: 'right', width: 100 });
+        columns.push({ field: 'refundMoney', title: '退款金额', halign: 'center', align: 'right', width: 100 });
+        columns.push({ field: 'subTotal', title: '行合计', halign: 'center', align: 'right', width: 100 });
+        columns.push({ field: 'totalMoney', title: '日合计', halign: 'center', align: 'right', width: 100 });
+
+        var reportName = "Detail_GetOrderDaily";
+        $('#grid').LineGrid({
+            url: "/Common/GetPageData?reportName=" + reportName,
+            queryParams: GetParams(),
+            //singleSelect: false,
+            //fitColumns: true,
+            showFooter: true,
+            columns: [columns],
+            onLoadSuccess: function (data) {
+                var cellcomp = 'payTime';
+                var cells = ['payTime','totalMoney'];
+                mergeCells_New('grid', data, cellcomp, cells);
+
+                var cells = ["payTime", "incomeName","platName"];
+                mergeCells('grid', data, cells);
+            }
+        });
+
+        $("#btnSearch").click(function () {
+            search();
+
+        });
+
+        function search(gridId, parameter) {
+
+            dataExt.loadGrid("grid",GetParams());
+        }
+
+        function GetParams() {
+            var result = $(".searchbar").GetParameter();
+            return result;
+        }
+
+
+
+        function opFormat(value, row) {
+            var html = "";
+            html += "<a href=\"javascript:void(0)\" class=\"btn btn-xs btn-info\" onclick=\"\">编辑</a>";
+            return html;
+        }
+
+        //第一种
+        //dg:datagrid的id;data:onLoadSuccess: function (data){}中的data;cellnames:合并的列,var cells = ["ku", "uu"];
+        function mergeCells(dg, data, cellnames) {
+            for (var i = 0; i < cellnames.length; i++) {
+                var cellname = cellnames[i];
+                var merges = [];
+
+                // 判断前一列是否相同
+                var preName = cellnames[i - 1];
+
+
+                for (var r = 0; r < data.rows.length; r++) {
+                    var row = data.rows[r];
+                    var mergeinfo = new Object();
+                    var nr = row[cellname];
+
+                    // pre
+                    var prenr = row[preName];
+
+                    var rowspan = 1;
+                    for (var r1 = r + 1; r1 < data.rows.length; r1++) {
+                        var row1 = data.rows[r1];
+                        var nr1 = row1[cellname];
+
+                        var prenr1 = row1[preName];
+
+                        if (nr1 && nr1 == nr && nr1 != "" && prenr1 && prenr1 == prenr && prenr1 != "") {
+                            mergeinfo.index = r;
+                            rowspan++;
+                            mergeinfo.rowspan = rowspan;
+                        }
+                        else {
+                            if (rowspan > 1) {
+                                merges.push(mergeinfo);
+                                r = r1 - 1;
+                            }
+                            break;
+                        }
+                        if (r1 == data.rows.length - 1) {
+                            if (rowspan > 1) {
+                                merges.push(mergeinfo);
+                                r = r1 - 1;
+                            }
+                        }
+                    }
+                }
+                for (var j = 0; j < merges.length; j++) {
+                    $('#' + dg).datagrid('mergeCells', {
+                        index: merges[j].index,
+                        field: cellname,
+                        rowspan: merges[j].rowspan
+                    });
+                }
+            }
+        }
+
+        //dg:datagrid的id;data:onLoadSuccess: function (data){}中的data;cellcomp:列相同;cellnames:合并的列,var cells = ["ku", "uu"];
+        //cellcomp列相同，cellnames合并
+        function mergeCells_New(dg, data, cellcomp, cellnames) {
+            var merges = [];
+            for (var r = 0; r < data.rows.length; r++) {
+                var row = data.rows[r];
+                var mergeinfo = new Object();
+                var nr = row[cellcomp];
+                var rowspan = 1;
+                for (var r1 = r + 1; r1 < data.rows.length; r1++) {
+                    var row1 = data.rows[r1];
+                    var nr1 = row1[cellcomp];
+
+                    if (nr1 && nr1 == nr && nr1 != "") {
+                        mergeinfo.index = r;
+                        rowspan++;
+                        mergeinfo.rowspan = rowspan;
+                    }
+                    else {
+                        if (rowspan > 1) {
+                            merges.push(mergeinfo);
+                            r = r1 - 1;
+                        }
+                        break;
+                    }
+                    if (r1 == data.rows.length - 1) {
+                        if (rowspan > 1) {
+                            merges.push(mergeinfo);
+                            r = r1 - 1;
+                        }
+                    }
+                }
+            }
+            for (var i = 0; i < cellnames.length; i++) {
+                var cellname = cellnames[i];
+                for (var j = 0; j < merges.length; j++) {
+                    $('#' + dg).datagrid('mergeCells', {
+                        index: merges[j].index,
+                        field: cellname,
+                        rowspan: merges[j].rowspan
+                    });
+                }
+            }
+        }
+
+
+    });
+
+</script>
+
+
+

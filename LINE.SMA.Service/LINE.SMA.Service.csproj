@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C150820C-152A-40CB-ACA9-B28380938336}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LINE.SMA.Service</RootNamespace>
+    <AssemblyName>LINE.SMA.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\LINE.SMA.Infrastructure\referencedll\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="SheepAspect">
+      <HintPath>..\LINE.SMA.Infrastructure\referencedll\SheepAspect.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Aspects\TransactionAspect.cs" />
+    <Compile Include="BaseServices.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportServices.cs" />
+    <Compile Include="UserManageService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SheepAspect.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Sheepaspect\install.ps1" />
+    <None Include="Sheepaspect\SheepAspect.Targets" />
+    <None Include="Sheepaspect\uninstall.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sheepaspect\SheepAspect.Tasks.dll" />
+    <Content Include="Sheepaspect\SheepAspectQueryAnalyzer.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LINE.SMA.Infrastructure\LINE.SMA.Infrastructure.csproj">
+      <Project>{c6a40e30-ba73-44f1-858f-1dff46a86315}</Project>
+      <Name>LINE.SMA.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LINE.SMA.Model\LINE.SMA.Model.csproj">
+      <Project>{0441f967-8534-478f-8377-083c95d490f1}</Project>
+      <Name>LINE.SMA.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LINE.SMA.Repositories\LINE.SMA.Repositories.csproj">
+      <Project>{98a43139-6621-4d95-9c20-bc99f1763b31}</Project>
+      <Name>LINE.SMA.Repositories</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="Sheepaspect\SheepAspect.targets" Condition="Exists('Sheepaspect\SheepAspect.targets')" />
+</Project>

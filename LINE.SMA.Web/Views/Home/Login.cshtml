@@ -1,0 +1,192 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+}
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <style>
+        .authcode {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 2;
+            display: block;
+            width: 80px;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            /*pointer-events: none;*/
+        }
+    </style>
+</head>
+
+<body class="login-layout">
+    <div class="main-container">
+        <div class="main-content">
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1">
+                    <div class="login-container">
+                        <div class="center">
+                            <h1>
+                                <i class="icon-leaf green"></i>
+                                <span class="red"></span>
+                                <span class="white">后台管理系统</span>
+                            </h1>
+                            <h4 class="blue">&copy; Company Name</h4>
+                        </div>
+
+                        <div class="space-6"></div>
+
+                        <div class="position-relative">
+                            <div id="login-box" class="login-box visible widget-box no-border">
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <h4 class="header blue lighter bigger">
+                                            <i class="icon-coffee green"></i>
+                                            Please Enter Your Information
+                                        </h4>
+
+                                        <div class="space-6"></div>
+
+                                        <form>
+                                            <fieldset>
+                                                <label class="block clearfix">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input id="userName" type="text" class="form-control" placeholder="用户名" />
+                                                        <i class="icon-user"></i>
+                                                    </span>
+                                                </label>
+
+                                                <label class="block clearfix">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input id="pwd" type="password" class="form-control" placeholder="密码" />
+                                                        <i class="icon-lock"></i>
+                                                    </span>
+                                                </label>
+                                                <label class="block clearfix">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input id="code" type="text" class="form-control" style="width:200px;" placeholder="验证码" />
+                                                        <img id="imgcode" class="authcode" src="~/Home/GetAuthCode" width="80" height="34" style="margin-left:3px;" />
+                                                    </span>
+                                                </label>
+                                                <div class="space"></div>
+
+                                                <div class="clearfix">
+                                                    @*<label class="inline">
+                                                        <input type="checkbox" class="ace" />
+                                                        <span class="lbl"> Remember Me</span>
+                                                    </label>*@
+
+                                                    <button id="btnLogin" type="button" class="width-35 pull-right btn btn-sm btn-primary">
+                                                        <i class="icon-key"></i>
+                                                        登录
+                                                    </button>
+                                                </div>
+
+                                                <div class="space-4"></div>
+                                            </fieldset>
+                                        </form>
+
+                                    </div><!-- /widget-main -->
+
+                                </div><!-- /widget-body -->
+                            </div><!-- /login-box -->
+
+                        </div><!-- /position-relative -->
+                    </div>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div>
+    </div><!-- /.main-container -->
+</body>
+</html>
+
+<script>
+    $(function () {
+
+        $("#btnLogin").click(function () {
+
+            var data = {
+                userName: $("#userName").val(),
+                pwd: $("#pwd").val(),
+                code: $("#code").val()
+            };
+            layer.alert('有了回调', {
+                shade :false,
+                success: function (el) {
+                    var $el = $(el);
+                    var btn = $el.find('.layui-layer-btn').find('a')[0];
+                    btn.href = 'javascript:void(0)';
+                    btn.focus();
+                    console.log(btn);
+                }
+            });
+
+            //layer.confirm('提示',{
+            //    area: [],
+            //    icon: 7,
+            //    title: '提示',
+            //    btn: ['确定','取消'], //单击按钮
+            //    btn1:function (index,layero){
+            //        layer.close(index);
+            //    },
+            //    success:function(layero){
+            //        var btn = layero[0].getElementsByClassName('layui-layer-btn')[0].getElementsByTagName('A')[0];    
+            //        btn.href = 'javascript:void(0)';
+            //        btn.focus();
+            //    },
+            //    end:function(){
+            //    }
+            //})
+
+
+            //var $username = $("#userName");
+            //var $password = $("#pwd");
+            //var $code = $("#code");
+            //if ($username.val() == "") {
+            //    $username.focus();
+            //    layer.alert('请输入用户名。');
+            //    return false;
+            //} else if ($password.val() == "") {
+            //    $password.focus();
+            //    alert('请输入登录密码。');
+            //    return false;
+            //} else if ($code.val() == "") {
+            //    $code.focus();
+            //    alert('请输入验证码。');
+            //    return false;
+            //} else {
+            //    $("#btnLogin").attr('disabled', 'disabled').find('span').html("loading...");
+            //    $.ajax({
+            //        url: "/Home/CheckLogin",
+            //        data: { userName: $.trim($username.val()), pwd: $.md5($.trim($password.val())), code: $.trim($code.val()) },
+            //        type: "post",
+            //        dataType: "json",
+            //        success: function (data) {
+            //            if (data.state == "success") {
+            //                $("#login_button").find('span').html("登录成功，正在跳转...");
+            //                window.setTimeout(function () {
+            //                    window.location.href = "/Home/Index";
+            //                }, 500);
+            //            } else {
+            //                $("#login_button").removeAttr('disabled').find('span').html("登录");
+            //                $("#switchCode").trigger("click");
+            //                $code.val('');
+            //                alert(data.message);
+            //            }
+            //        }
+            //    });
+            //}
+
+        });
+
+        $("#imgcode").click(function () {
+            $("#imgcode").attr("src", "/Home/GetAuthCode?time=" + Math.random());
+        });
+
+    });
+</script>

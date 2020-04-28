@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "TrafficDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-content">
+    <div id="searchbar" class="searchbar">
+        <input type="text" id="trafficId" col="trafficId" name="" placeholder="车次号">
+        <input type="text" id="carplateFull" col="carplateFull" placeholder="车牌号">
+        <input type="text" id="etcNo" col="etcNo" placeholder="EtcNo">
+        <input class="Wdate" col="StartTime" type="text" placeholder="入场开始时间" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+        <input class="Wdate" col="EndTime" type="text" placeholder="入场结束时间" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+
+
+        <a id="btnSearch" author="S" class="btn btn-sm btn-primary">查询</a>
+    </div>
+    <div id="grid">
+    </div>
+</div>
+<script>
+    $(function () {
+
+        var reportName = "Detail_GetTrafficDetail";
+        $('#grid').LineGrid({
+            url: "/Common/GetPageData?reportName=" + reportName,
+            queryParams: GetParams(),
+            singleSelect: false,
+            //fitColumns: true,
+            columns: [[
+                //{ field: 'ck', title: '选择', checkbox: true },
+                { field: 'id', title: '编号', align: 'center', width: 100 },
+                { field: 'trafficId', title: '车次号',align: 'center', width: 150 },
+                { field: 'carplateFull', title: '车牌号码', align: 'center', width: 100 },
+                { field: "etcNo", title: "EtcNo", align: 'center', width: 140 },
+                { field: "comeTime", title: "入场时间", align: 'center', width: 140 },
+                { field: "comePlace", title: "入场地点", align: 'center', width: 140 },
+                { field: "outTime", title: "出场时间", align: 'center', width: 140 },
+                { field: "outPlace", title: "出场地点", align: 'center', width: 140 },
+                { field: "ParkTime", title: "停车时长", align: 'center', width: 140 },
+                { field: "payMoney", title: "停车费用", align: 'center', width: 140 },
+                { field: "ticketMoney", title: "抵扣金额", align: 'center', width: 140 },
+                { field: "ticketTime", title: "抵扣时长", align: 'center', width: 140 },
+                { field: "freeMoney", title: "免费金额", align: 'center', width: 140 },
+                { field: "carTypeName", title: "卡片类型", align: 'center', width: 120 },
+                { field: "carStyleName", title: "车辆类型", align: 'center', width: 120 },
+                { field: "remark", title: "备注", align: 'center', width: 180 },
+            ]]
+        });
+
+        function opFormat(value, row) {
+            var html = "";
+            html += "<a href=\"javascript:void(0)\" class=\"btn btn-xs btn-info\" onclick=\"\">编辑</a>";
+            return html;
+        }
+
+        $("#btnSearch").click(function () {
+            search();
+        });
+
+        function search(gridId, parameter) {
+
+            dataExt.loadGrid("grid",GetParams());
+        }
+
+        function GetParams() {
+            var result = $(".searchbar").GetParameter();
+            return result;
+        }
+
+    });
+
+</script>

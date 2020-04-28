@@ -14,7 +14,7 @@ namespace LINE.SMA.Repositories
 {
     public class BaseRepository<T> : IRepository<T> where T : class, EntityBase
     {
-        private KtDbContext Db
+        private LineDbContext Db
         {
             get { return DbFactory.GetInstance(); }
         }

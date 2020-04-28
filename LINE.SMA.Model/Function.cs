@@ -25,8 +25,10 @@ namespace LINE.SMA.Model
          // 排序编号 
          public int OrderId { get; set; }
          // 0 可见  1不可见 
+        
          public int hidden { get; set; }
-         //public string icon { get; set; }
+        [NotMapped]
+        public string icon { get; set; }
      }
 }
 

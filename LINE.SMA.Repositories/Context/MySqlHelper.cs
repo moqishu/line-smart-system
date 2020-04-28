@@ -10,7 +10,7 @@ namespace LINE.SMA.Repositories.Context
 {
     public class MySqlHelper
     {
-        private KtDbContext Db
+        private LineDbContext Db
         {
             get { return DbFactory.GetInstance(); }
         }

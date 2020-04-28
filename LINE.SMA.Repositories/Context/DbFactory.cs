@@ -4,12 +4,12 @@ namespace LINE.SMA.Repositories.Context
 {
     public class DbFactory
     {
-        public static KtDbContext GetInstance()
+        public static LineDbContext GetInstance()
         {
-            KtDbContext dbContext = CallContext.GetData("DbContext") as KtDbContext;
+            LineDbContext dbContext = CallContext.GetData("DbContext") as LineDbContext;
             if (dbContext == null)
             {
-                dbContext = new KtDbContext();
+                dbContext = new LineDbContext();
                 CallContext.SetData("DbContext", dbContext);
             }
             

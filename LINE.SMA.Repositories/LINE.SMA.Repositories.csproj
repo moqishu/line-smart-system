@@ -37,6 +37,9 @@
     <Reference Include="EntityFramework">
       <HintPath>..\LINE.SMA.Infrastructure\referencedll\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\LINE.SMA.Infrastructure\referencedll\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data">
       <HintPath>..\LINE.SMA.Infrastructure\referencedll\MySql.Data.dll</HintPath>
     </Reference>
@@ -48,6 +51,7 @@
       <HintPath>..\LINE.SMA.Infrastructure\referencedll\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -60,8 +64,10 @@
     <Compile Include="Context\DbFactory.cs" />
     <Compile Include="Context\DBOper.cs" />
     <Compile Include="Context\GetConn.cs" />
+    <Compile Include="Context\LineDbContext.cs" />
     <Compile Include="Context\KtDbContext.cs" />
     <Compile Include="Context\MySqlHelper.cs" />
+    <Compile Include="FunctionRepository.cs" />
     <Compile Include="Interface\IFunctionRepository.cs" />
     <Compile Include="Interface\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -36,8 +36,10 @@ namespace LINE.SMA.Generator
             allConfig.modelSavePath = @"D:\Model";
             allConfig.modelTemplate = "ModelAuto";
 
+            allConfig.trimTablePre = "t_";
+
             //生成Model================================================
-            
+
             GenerateTemplate_Model(allConfig);
             
 
@@ -57,6 +59,12 @@ namespace LINE.SMA.Generator
             foreach (var tableName in tableList)
             {
                 var table = db.GetTableMetadata(tableName);
+
+                if (!string.IsNullOrEmpty(allConfig.trimTablePre))
+                {
+                    table.ClassName = TrimPre(tableName, allConfig.trimTablePre);
+                }
+
                 //if (table.PKs.Count == 0) throw new Exception(string.Format("表{0}:没有设置主键！", tableName));
                 Display(tableName, table);
                 dynamic viewbag = new DynamicViewBag();
@@ -70,6 +78,16 @@ namespace LINE.SMA.Generator
 
             Console.WriteLine("===============生成Model完成===============");
         }
+
+        private static string TrimPre(string tableName,string trimTablePre)
+        {
+            char[] charArray = trimTablePre.ToCharArray();
+            var  result = tableName.TrimStart(charArray);
+
+            result = result.Replace("_", string.Empty);
+            return result.Substring(0, 1).ToUpper() + result.Substring(1, result.Length - 1);
+        }
+
 
         private static void Pause()
         {

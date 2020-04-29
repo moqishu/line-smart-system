@@ -12,7 +12,9 @@ namespace LINE.SMA.Model
      {
          //  
          public long Id { get; set; }
-         //  
+         /// <summary>
+         /// 
+         /// </summary>
          public int parentid { get; set; }
          //  
          public string funname { get; set; }

@@ -11,11 +11,31 @@ namespace LINE.SMA.Generator.DBSchema
     /// </summary>
     public class GeneratorConfig
     {
-        public string dataBaseName { get; set; }
+        public DbConfig dbConfig { get; set; }
+        /// <summary>
+        /// 表名
+        /// </summary>
+        public string tableName { get; set; }
+        /// <summary>
+        /// 去掉表前缀
+        /// </summary>
+        public string trimTablePre { get; set; }
+        /// <summary>
+        /// 命名空间
+        /// </summary>
+        public string modelNamespaceVal { get; set; }
 
-        public string userName { get; set; }
+        public string modelSavePath { get; set; }
 
-        public string password { get; set; }
+        public string modelTemplate { get; set; }
+        /// <summary>
+        /// 输入表名
+        /// </summary>
+        public string tableList { get; set; }
+
+        public string moduleName { get; set; }
+
+        public Table table { get; set; }
 
 
     }

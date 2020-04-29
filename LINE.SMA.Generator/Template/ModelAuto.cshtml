@@ -1,0 +1,31 @@
+﻿@using System.Linq
+@using LINE.SMA.Generator.DBSchema
+@using RazorEngine.Text
+@{
+    GeneratorConfig config = (GeneratorConfig)Model;
+    Table table = config.table;
+    string classnameVal = ViewBag.classnameVal;
+    string namespaceVal = config.modelNamespaceVal;
+}
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace @namespaceVal
+{
+    [Table("@classnameVal")]
+	public class @classnameVal : EntityBase
+    {
+    @foreach (Column item in table.Columns)
+    {
+        <h1>/// <summary>
+        /// @item.COLUMN_COMMENT
+        /// </summary>
+        public @item.COLUMN_TYPE @item.COLUMN_NAME { get; set; }
+
+        </h1>
+    }
+    }
+}
+
+

@@ -21,14 +21,15 @@ namespace @namespaceVal
     {
     @foreach (Column item in table.Columns)
     {
-        if (table.BaseColumns.Contains(item.COLUMN_NAME.ToLower()))
-        {
-            continue;
-        }
+        //if (table.BaseColumns.Contains(item.COLUMN_NAME.ToLower()))
+        //{
+        //    continue;
+        //}
         <h1>
         /// <summary>
         /// @item.COLUMN_COMMENT
         /// </summary>
+        [Column("@item.COLUMN_NAME")]
         public @item.NET_DATA_TYPE @item.ToUpperColumn { get; set; }
 
         </h1>

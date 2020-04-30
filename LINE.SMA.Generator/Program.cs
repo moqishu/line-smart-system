@@ -25,7 +25,7 @@ namespace LINE.SMA.Generator
             //
             DbConfig dbConfig = new DbConfig();
 
-            dbConfig.dataBaseName = "ktpark";
+            dbConfig.dataBaseName = "lab_db";
             dbConfig.userName = "root";
             dbConfig.port = 5831;
             dbConfig.password = "Keytop:wabjtam!";

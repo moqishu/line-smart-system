@@ -5,10 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Web;
 
 namespace LINE.SMA.Infrastructure
 {
-    public class IocContainer2
+    public class IocContainer
     {
         private static IUnityContainer _myContainer;
 
@@ -95,10 +96,13 @@ namespace LINE.SMA.Infrastructure
         public static Dictionary<Type, Type[]> GetAssembly()
         {
             string directory = AppDomain.CurrentDomain.BaseDirectory;
-
+            if (HttpContext.Current != null)
+            {
+                directory = Path.Combine(directory, "Bin");
+            }
             //获取DLL文件
             List<string> files = Directory.GetFiles(directory, "*.dll").Select(path => Path.GetFileName(path)).ToList();
-            files = files.Where(f => f.Contains("KT.SMA.")).ToList();
+            files = files.Where(f => f.Contains("LINE.SMA.")).ToList();
 
             List<Assembly> dllFiles = new List<Assembly>();
             foreach (var file in files)

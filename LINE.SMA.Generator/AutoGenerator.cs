@@ -79,7 +79,7 @@ namespace LINE.SMA.Generator
                 FileHelper.Save(string.Format(@"{0}\{1}.cs", path, viewbag.classnameVal), outputText);
             }
 
-            Console.WriteLine("===============生成Model完成===============");
+            Console.WriteLine("===============生成Model完成==================");
         }
 
         private static void GenerateTemplate_Rep(GeneratorConfig allConfig)

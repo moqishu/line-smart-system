@@ -50,6 +50,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Function.cs" />
+    <Compile Include="Lab\Labclass.cs" />
+    <Compile Include="Lab\Labcourse.cs" />
+    <Compile Include="Lab\Labcourseorder.cs" />
+    <Compile Include="Lab\Labcoursestudent.cs" />
+    <Compile Include="Lab\Labcoursestudentstation.cs" />
+    <Compile Include="Lab\Labdepartment.cs" />
+    <Compile Include="Lab\Labdiscuss.cs" />
+    <Compile Include="Lab\Labdiscussreply.cs" />
+    <Compile Include="Lab\Labexample.cs" />
+    <Compile Include="Lab\Labexperiment.cs" />
+    <Compile Include="Lab\Labexperimenttype.cs" />
+    <Compile Include="Lab\Labgroup.cs" />
+    <Compile Include="Lab\Labgroupstudent.cs" />
+    <Compile Include="Lab\Labindexphoto.cs" />
+    <Compile Include="Lab\Labmessage.cs" />
+    <Compile Include="Lab\Labmessageone.cs" />
+    <Compile Include="Lab\Labmodule.cs" />
+    <Compile Include="Lab\Labmodulerole.cs" />
+    <Compile Include="Lab\Labnews.cs" />
+    <Compile Include="Lab\Labrole.cs" />
+    <Compile Include="Lab\Labroom.cs" />
+    <Compile Include="Lab\Labroomorder.cs" />
+    <Compile Include="Lab\Labroomstation.cs" />
+    <Compile Include="Lab\Labroomtime.cs" />
+    <Compile Include="Lab\Labuser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

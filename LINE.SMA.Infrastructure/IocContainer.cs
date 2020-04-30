@@ -9,7 +9,7 @@ using System.Web;
 
 namespace LINE.SMA.Infrastructure
 {
-    public class IocContainer
+    public class IocContainer2
     {
         private static IUnityContainer _myContainer;
 

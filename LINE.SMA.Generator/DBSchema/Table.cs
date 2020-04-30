@@ -9,5 +9,9 @@ namespace LINE.SMA.Generator.DBSchema
         public string TableName;
         public string ClassName;
         public List<Column> Columns;
+        /// <summary>
+        /// 基类字段
+        /// </summary>
+        public List<string> BaseColumns;
     }
 }

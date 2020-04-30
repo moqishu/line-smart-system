@@ -1,7 +1,7 @@
 ﻿using LINE.SMA.Infrastructure;
 using LINE.SMA.Model;
 using LINE.SMA.Repositories;
-using LINE.SMA.Repositories.Interface;
+using LINE.SMA.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

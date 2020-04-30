@@ -28,6 +28,12 @@ namespace LINE.SMA.Generator.Utils
             var result = Engine.Razor.RunCompile(template, templateKey.ToString("G"), null, model, (DynamicViewBag)viewbag);
             return result;
         }
+
+        public static string Parse(TemplateKey templateKey, string template, object model)
+        {
+            var result = Engine.Razor.RunCompile(template, templateKey.ToString("G"), null, model);
+            return result;
+        }
         /// <summary>
         /// 删除提示信息：
         /// RazorEngine: We can't cleanup temp files if you use RazorEngine on the default Appdomain.

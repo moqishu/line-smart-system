@@ -19,8 +19,11 @@ namespace LINE.SMA.Generator.DBSchema
 
         public MySqlConnection conn;
 
+        public string dataBasename;
+
         public MySqlSchema(DbConfig config)
         {
+            this.dataBasename = config.dataBaseName;
             ConnectionString = string.Format(ConnectionString, config.ip, config.port, config.dataBaseName, config.userName, config.password);
 
             conn = new MySqlConnection(ConnectionString);
@@ -29,9 +32,16 @@ namespace LINE.SMA.Generator.DBSchema
 
         public List<string> GetTablesList()
         {
-            DataTable dt = conn.GetSchema("Tables");
+            //DataTable dt = conn.GetSchema("Tables");
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat(" SELECT TABLE_NAME from information_schema.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='{0}' ", dataBasename);
+            string selectCmdText = sb.ToString();
+            MySqlCommand command = new MySqlCommand(selectCmdText, conn);
+            MySqlDataAdapter ad = new MySqlDataAdapter(command);
+            System.Data.DataSet ds = new DataSet();
+            ad.Fill(ds);
             List<string> list = new List<string>();
-            foreach (DataRow row in dt.Rows)
+            foreach (DataRow row in ds.Tables[0].Rows)
             {
                 list.Add(row["TABLE_NAME"].ToString());
             }
@@ -63,7 +73,7 @@ namespace LINE.SMA.Generator.DBSchema
             table.TableName = tableName;
 
             // DataTable转List
-            table.Columns = ds.Tables[0].ToList<Column>();
+            table.Columns = ds.Tables[0].Dt2List<Column>();
 
             return table;
         }

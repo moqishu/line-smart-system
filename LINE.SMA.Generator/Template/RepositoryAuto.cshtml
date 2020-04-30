@@ -1,0 +1,21 @@
+﻿@using System.Linq
+@using LINE.SMA.Generator.DBSchema
+@using RazorEngine.Text
+@{
+    GeneratorConfig config = (GeneratorConfig)Model;
+}
+using LINE.SMA.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace @config.repNamespaceVal
+{
+    public class @config.repClassName : BaseRepository<@config.tableName>, @config.repInterfaceName
+    {
+        
+    }
+}
+
+

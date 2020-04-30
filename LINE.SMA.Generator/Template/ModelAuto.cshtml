@@ -1,4 +1,5 @@
 ﻿@using System.Linq
+@using System
 @using LINE.SMA.Generator.DBSchema
 @using RazorEngine.Text
 @{
@@ -15,11 +16,15 @@ using LINE.SMA.Infrastructure;
 
 namespace @namespaceVal
 {
-    [Table("@classnameVal")]
+    [Table("@table.TableName")]
     public class @table.ClassName : EntityBase
     {
     @foreach (Column item in table.Columns)
     {
+        if (table.BaseColumns.Contains(item.COLUMN_NAME.ToLower()))
+        {
+            continue;
+        }
         <h1>
         /// <summary>
         /// @item.COLUMN_COMMENT

@@ -4,5 +4,6 @@
     {
         Model=1,
         Dao= 2,
+        IDao = 3,
     }
 }

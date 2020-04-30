@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LINE.SMA.Repositories.Interface 
+namespace LINE.SMA.Repositories 
 {
      public interface IFunctionRepository : IRepository<Function>
      {

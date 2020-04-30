@@ -1,6 +1,6 @@
 ﻿using LINE.SMA.Infrastructure;
 using LINE.SMA.Repositories.Context;
-using LINE.SMA.Repositories.Interface;
+using LINE.SMA.Repositories;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;

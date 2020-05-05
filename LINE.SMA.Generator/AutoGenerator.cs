@@ -5,6 +5,7 @@ using RazorEngine.Templating;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -144,8 +145,18 @@ namespace LINE.SMA.Generator
             char[] charArray = trimTablePre.ToCharArray();
             var result = tableName.TrimStart(charArray);
 
-            result = result.Replace("_", string.Empty);
-            return result.Substring(0, 1).ToUpper() + result.Substring(1, result.Length - 1);
+            // sys_menu SysMenu
+            //result = result.Replace("_", string.Empty);
+            //return result.Substring(0, 1).ToUpper() + result.Substring(1, result.Length - 1);
+
+            var resultName = "";
+            string[] names = result.Split('_');
+            foreach(var name in names)
+            {
+                resultName += name.Substring(0, 1).ToUpper() + name.Substring(1, name.Length - 1);
+            }
+
+            return resultName;
         }
 
 

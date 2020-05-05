@@ -267,6 +267,7 @@ TabPanel.prototype = {
     showScroll: function() {
         var a = this.tabpanel_mover.children().length * this.tabWidth;
         var b = this.tabpanel_tab_content.width();
+        // 此处修改tab滚动标签是否出现
         if (a > b && !this.scrolled) {
             this.tabpanel_move_content.addClass("tabpanel_move_content_scroll");
             this.tabpanel_left_scroll.removeClass("display_none");
@@ -654,7 +655,7 @@ TabPanel.prototype = {
 
             this.width = this.render.width();
 
-            if (sidebar == 230 && typeof (sidebar) != "undefined") {
+            if ((sidebar == 230) && typeof (sidebar) != "undefined") {
                 this.tabpanel.animate({
                     width: this.width - a - w + 'px'
                 }, 600);

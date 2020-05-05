@@ -9,6 +9,7 @@ using System.Data.Common;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
+using LINE.SMA.Repositories.BaseRepository;
 
 namespace LINE.SMA.Repositories
 {
@@ -66,21 +67,22 @@ namespace LINE.SMA.Repositories
 
         public virtual T Add(T entity)
         {
-            var result = Db.Set<T>().Add(entity);
+            var result = Db.Set<T>().Insert(entity);
             Db.SaveChanges();
             return result;
         }
 
         public virtual List<T> Add(List<T> entitys)
         {
-            var result = new List<T>();
-            foreach (var li in entitys)
-            {
-                var re = Db.Set<T>().Add(li);
-                result.Add(re);
-            }
+            //var result = new List<T>();
+            //foreach (var li in entitys)
+            //{
+            //    var re = Db.Set<T>().Insert(li);
+            //    result.Add(re);
+            //}
 
-            //var result = Db.Set<List<T>>().Add(entitys);
+            var result = Db.Set<T>().InsertRange(entitys);
+
             Db.SaveChanges();
             return result.ToList();
         }

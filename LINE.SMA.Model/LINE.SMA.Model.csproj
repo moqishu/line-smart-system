@@ -75,6 +75,7 @@
     <Compile Include="Lab\Labroomstation.cs" />
     <Compile Include="Lab\Labroomtime.cs" />
     <Compile Include="Lab\Labuser.cs" />
+    <Compile Include="CustomMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

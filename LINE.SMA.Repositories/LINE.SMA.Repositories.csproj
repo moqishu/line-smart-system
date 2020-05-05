@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseRepository\DbExtends.cs" />
     <Compile Include="Context\DbFactory.cs" />
     <Compile Include="Context\DBOper.cs" />
     <Compile Include="Context\GetConn.cs" />

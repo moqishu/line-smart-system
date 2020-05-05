@@ -138,5 +138,10 @@ namespace LINE.SMA.Infrastructure
             }
         }
 
+        public static long GenerateId()
+        {
+            return snowflake.GetId();
+        }
+
     }
 }

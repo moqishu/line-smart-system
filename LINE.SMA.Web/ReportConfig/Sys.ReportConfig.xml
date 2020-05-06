@@ -3,7 +3,7 @@
   <Rep key="Sys_GetButtonList" Remark="获取按钮列表">
     <ReportSql>
       <![CDATA[
-        SELECT sb.Id,sb.BtnCode,sb.BtnName,sb.EngName,sb.Icon,sb.OrderId,sb.CreateTime 
+        SELECT sb.id, sb.name, sb.title, sb.code, sb.muneId, sb.remark, sb.createTime, sb.updateTime
         FROM sys_button sb 
       ]]>
     </ReportSql>
@@ -56,8 +56,8 @@
   <Rep key="Sys_GetMenuList" Remark="获取菜单列表">
     <ReportSql>
       <![CDATA[
-        SELECT sb.Id,sb.BtnCode,sb.BtnName,sb.EngName,sb.Icon,sb.OrderId,sb.CreateTime 
-        FROM sys_button sb 
+        SELECT sm.id, sm.name, sm.url, sm.parentId, sm.sort, sm.level, sm.icon, sm.remark, sm.createTime, sm.updateTime
+        FROM sys_menu sm 
       ]]>
     </ReportSql>
     <OrderSql>
@@ -68,7 +68,7 @@
     <TotalSql>
       <![CDATA[
         SELECT COUNT(0)
-        FROM sys_button sb
+        FROM sys_menu sm
         WHERE @Param
       ]]>
     </TotalSql>

@@ -35,5 +35,15 @@ namespace LINE.SMA.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult MenuEdit()
+        {
+            return View();
+        }
+
+        public ActionResult ButtonList()
+        {
+            return View();
+        }
     }
 }

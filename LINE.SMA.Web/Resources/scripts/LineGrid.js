@@ -82,12 +82,12 @@ $.fn.LineGrid = function (options) {
 
     $(window).resize(function () {
         $('#grid').datagrid('resize', {
-            height: ($(window).height() - $('.searchbar').height() - 60)
+            height: ($(window).height() - $('.searchbar').height() - 18)
         });
     });
 
     $('#grid').datagrid('resize', {
-        height: ($(window).height() - $('.searchbar').height() - 60)
+        height: ($(window).height() - $('.searchbar').height() - 18)
     });
 
     var colContent;

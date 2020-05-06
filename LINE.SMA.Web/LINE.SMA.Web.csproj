@@ -2824,6 +2824,7 @@
     <Content Include="Views\User\UserDetail.cshtml" />
     <Content Include="Views\User\UserList.cshtml" />
     <Content Include="Views\Sys\MenuList.cshtml" />
+    <Content Include="Views\Sys\MenuEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LINE.SMA.Infrastructure\LINE.SMA.Infrastructure.csproj">

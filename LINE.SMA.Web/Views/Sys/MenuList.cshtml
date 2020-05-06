@@ -25,7 +25,7 @@
 
         $("#btnAdd").click(function () {
             //js.openPage("/Menu/MenuList", "编辑界面");//增加tab
-            js.windowOpen('用户编辑界面', '/User/UserDetail', 600, 500, false);
+            js.windowOpen('菜单编辑界面', '/Sys/MenuEdit', 500, 300, false);
         });
 
         $("#btnDel").click(function () {
@@ -37,7 +37,7 @@
             dataExt.loadGrid();
         }
 
-        var reportName = "Sys_GetButtonList";
+        var reportName = "Sys_GetMenuList";
         var dataUrl = "/Common/GetPageData?reportName=" + reportName;
 
         $('#grid').LineGrid({
@@ -47,13 +47,12 @@
             fitColumns: true,
             columns: [[
                 { field: 'ck', title: '选择', checkbox: true },
-                { field: 'Id', title: '编号', align: 'center', width: 100 },
-                //{ field: 'BtnCode', title: '按钮编号', align: 'center', width: 100 },
-                { field: "BtnName", title: "按钮名称", align: 'center', width: 140 },
-                { field: "EngName", title: "英文名", align: 'center', width: 140 },
-                { field: "Icon", title: "图标", align: 'center', width: 140 },
-                { field: "OrderId", title: "排序", align: 'center', width: 140 },
-                { field: "CreateTime", title: "创建时间", align: 'center', width: 180 },
+                { field: 'id', title: '编号', align: 'center', width: 100 },
+                { field: "name", title: "名称", align: 'center', width: 140 },
+                { field: "url", title: "地址", align: 'center', width: 140 },
+                { field: "icon", title: "图标", align: 'center', width: 140 },
+                { field: "sort", title: "排序", align: 'center', width: 140 },
+                { field: "createTime", title: "创建时间", align: 'center', width: 180 },
             ]]
         });
 

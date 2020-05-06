@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "RoleList";
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+}
+
+<div class="page-content">
+    <div id="searchbar" class="searchbar">
+        <input type="text" id="id1" name="" placeholder="编号">
+        <input type="text" id="id2" placeholder="用户名">
+        <a id="btnSearch" class="btn btn-sm btn-primary">查询</a>
+        <a id="btnAdd" class="btn btn-sm btn-success">新增</a>
+        <a id="btnAdd" class="btn btn-sm btn-info">编辑</a>
+        <a id="btnDel" class="btn btn-sm btn-danger">删除</a>
+    </div>
+    <div id="grid">
+    </div>
+</div>
+<script>
+    $(function () {
+
+        $("#btnSearch").click(function () {
+            search();
+        });
+
+        $("#btnAdd").click(function () {
+
+            //js.openPage("/Menu/MenuList", "编辑界面");//增加tab
+            js.windowOpen('用户编辑界面', '/User/UserDetail', 600, 500, false);
+        });
+
+        $("#btnDel").click(function () {
+
+            dataExt.getSelectIds();
+        });
+        function search(gridId, parameter) {
+
+            dataExt.loadGrid();
+        }
+
+
+        var reportName = "User_GetRoleList";
+        var dataUrl = "/Common/GetPageData?reportName=" + reportName;
+
+        $('#grid').LineGrid({
+            url: "/Common/GetPageData?reportName=" + reportName,
+            queryParams: {},
+            singleSelect: false,
+            fitColumns: true,
+            columns: [[
+                { field: 'ck', title: '选择', checkbox: true },
+                { field: 'id', title: '编号', align: 'center', width: 100 },
+                { field: 'RoleCode', title: '角色编码', align: 'center', width: 100 },
+                { field: "rolename", title: "角色名称", align: 'left', width: 180 },
+                { field: "remark", title: "备注", align: 'center', width: 220 },
+                { field: "createTime", title: "创建时间", align: 'center', width: 180 },
+            ]]
+        });
+
+
+
+
+        function opFormat(value, row) {
+            var html = "";
+            html += "<a href=\"javascript:void(0)\" class=\"btn btn-xs btn-info\" onclick=\"\">编辑</a>";
+            return html;
+        }
+
+
+    });
+
+</script>
+

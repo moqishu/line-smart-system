@@ -1,0 +1,201 @@
+﻿@{
+    ViewBag.Title = "RightSetting";
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+}
+<style>
+    .datagrid-header td, .datagrid-body td, .datagrid-footer td {
+        border-color: #ebeef5;
+        border-style: solid;
+        color: #606266;
+        padding: 5px 0px 5px 0px;
+    }
+</style>
+<div class="page-content">
+    <div id="searchbar" class="searchbar">
+        <input type="text" id="id1" name="" placeholder="编号">
+        <input type="text" id="id2" placeholder="用户名" class="form-control">
+        <input class="Wdate" type="text" placeholder="请选择日期" onclick="WdatePicker()" />
+        <select class="form-control select2">
+            <option></option>
+            <option>中国</option>
+            <option>日本</option>
+            <option>美国</option>
+            <option>韩国</option>
+            <option>英国</option>
+            <option>马来西亚</option>
+            <option>新加坡</option>
+        </select>
+        <a id="btnSearch" author="S" class="btn btn-primary">查询</a>
+        <a id="btnExpand" class="btn btn-info">展开</a>
+        <a id="btnCollapse" class="btn btn-info">收缩</a>
+    </div>
+    <div id="grid">
+    </div>
+</div>
+<script>
+    $(function () {
+
+        var reportName = "User_GetRolerRight";
+
+        $("#btnExpand").click(function () {
+            $('#grid').treegrid('expandAll');
+        });
+
+        $("#btnCollapse").click(function () {
+            $('#grid').treegrid('collapseAll');
+        });
+
+        $('#grid').treegrid({
+            url: "/Common/GetPageData?reportName=" + reportName,
+            height: 610,
+            width:'98.5%',
+            idField: 'id',
+            pagination: true,
+            pageSize: 200,
+            pageList: [100,200,500],
+            rownumbers: false, //是否加行号
+            treeField: 'funname',
+            columns: [[
+                { title: '编号', field: 'id', width: 60 },
+                { title: '菜单权限', field: 'funname', width: 350 },
+                //{
+                //    title: '全选', field: 'parentid', width: 120, align: 'center',
+                //    formatter: function (value, rec, index) {
+                //        // 第一级 id = "allCheck_id"
+                //        // 第二级 id = "trCheck_id"
+                //        var id = 'allCheck_' + rec.id;
+                //        id = 'allCheck';
+                //        if (value != 0) {
+                //            id = 'trCheck_' + value;
+                //            //id = 'trCheck';
+                //        }
+
+                //        return '<input tr="trCheck" name=' + id + ' type="checkbox" value="' + rec.id + '" />';
+                //    }
+                //},
+                {
+                    title: '操作按钮权限', field: 'btn', width: 650,
+                    formatter: function (value, rec, index) {
+                        var menus = rec.menus.split(',');
+                        var result = '';
+                        $.each(menus, function (index, value) {
+                            var arr = value.split('|');
+                            var title = '';
+                            switch(arr[0])
+                            {
+                                case "Add":
+                                    title = "新增";
+                                    break;
+                                case "Delete":
+                                    title = "删除";
+                                    break;
+                                case "Modify":
+                                    title = "编辑";
+                                    break;
+                                case "Search":
+                                    title = "查询";
+                                    break;
+                                case "Export":
+                                    title = "导出";
+                                    break;
+                                case "Verify":
+                                    title = "审核";
+                                    break;
+                                case "Cancel":
+                                    title = "注销";
+                                    break;
+                                case "ReCharge":
+                                    title = "充值";
+                                    break;
+                                case "Back":
+                                    title = "退款";
+                                    break;
+                                case "Import":
+                                    title = "导入";
+                                    break;
+                                default:
+                                    title = "";
+                            }
+   
+                            if (title != '') {
+                                // name = 第一级id_第二级id
+                                var parentId = rec.parentid + '_' + rec.id;
+                                var chc = 'checked="checked"';
+                                if (arr[0] == '0') {
+                                    chc = '';
+                                }
+                                result += '<input ' + chc + ' grand=' + rec.parentid + ' name=' + rec.id + ' type="checkbox" value="' + arr[1] + '" />&nbsp;' + title + '&nbsp;&nbsp;';
+                            }
+                        });
+
+                        return result;
+                    }
+                }
+            ]],
+            loadFilter: function (data, parentId) {
+                
+                for (var i = 0; i < data.rows.length; i++) {
+                    var rowdata = data.rows[i];
+                    var _parend = data.rows[i]._parentId;
+                    if (_parend == 0) {
+                        delete data.rows[i]['_parentId'];
+                    }
+
+                };
+                return data;
+            },
+            onLoadSuccess: function (data) {
+                $('#grid').treegrid('collapseAll');
+                $(("input")).iCheck({
+                    //checkboxClass: 'icheckbox_minimal',
+                    //radioClass: 'iradio_square-minimal'
+                    checkboxClass: 'icheckbox_minimal-blue',
+                    radioClass: 'iradio_square-blue'
+                    //checkboxClass: 'icheckbox_square-blue',
+                    //radioClass: 'iradio_square-blue',
+                    //checkboxClass: 'icheckbox_polaris',
+                    //radioClass: 'iradio_polaris',
+                });
+
+                $("input[name='allCheck']").on('ifClicked', function (event) {
+                    var name = 'trCheck_' + $(this).val();
+                    if ($(this).prop("checked") == false) {
+                        $("input[name=" + name + "]").iCheck('check');
+                        $("input[grand=" + $(this).val() + "]").iCheck('check');
+                    } else {
+                        $("input[name=" + name + "]").iCheck('uncheck');
+                        $("input[grand=" + $(this).val() + "]").iCheck('uncheck');
+                    }
+                });
+
+                $("input[tr='trCheck']").on('ifClicked', function (event) {
+                    var name = $(this).val();
+                    if ($(this).prop("checked") == false) {
+                        $("input[name=" + name + "]").iCheck('check');
+                    } else {
+                        $("input[name=" + name + "]").iCheck('uncheck');
+                    }
+                });
+            },
+            onDblClickCell: function (field, row) {
+
+                if (row.parentid == 0 && field == 'funname') {
+                    if (row.state == 'open') {
+                        $('#grid').treegrid('collapse', row.id);
+                    }
+                    else {
+                        $('#grid').treegrid('expand', row.id);
+                    }
+                } else {
+                    return;
+                }
+
+            }
+        });
+
+
+        
+
+    });
+
+</script>

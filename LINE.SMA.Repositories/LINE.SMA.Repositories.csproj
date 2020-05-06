@@ -68,8 +68,6 @@
     <Compile Include="Context\LineDbContext.cs" />
     <Compile Include="Context\KtDbContext.cs" />
     <Compile Include="Context\MySqlHelper.cs" />
-    <Compile Include="Repositories\FunctionRepository.cs" />
-    <Compile Include="Repositories\Interface\IFunctionRepository.cs" />
     <Compile Include="BaseRepository\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reporting\ReportHelper.cs" />
@@ -124,6 +122,16 @@
     <Compile Include="Repositories\Lab\LabroomstationRepository.cs" />
     <Compile Include="Repositories\Lab\LabroomtimeRepository.cs" />
     <Compile Include="Repositories\Lab\LabuserRepository.cs" />
+    <Compile Include="Repositories\Sys\Interface\ISysAuthorRepository.cs" />
+    <Compile Include="Repositories\Sys\Interface\ISysButtonRepository.cs" />
+    <Compile Include="Repositories\Sys\Interface\ISysMenuRepository.cs" />
+    <Compile Include="Repositories\Sys\Interface\ISysRoleRepository.cs" />
+    <Compile Include="Repositories\Sys\Interface\ISysUserRepository.cs" />
+    <Compile Include="Repositories\Sys\SysAuthorRepository.cs" />
+    <Compile Include="Repositories\Sys\SysButtonRepository.cs" />
+    <Compile Include="Repositories\Sys\SysMenuRepository.cs" />
+    <Compile Include="Repositories\Sys\SysRoleRepository.cs" />
+    <Compile Include="Repositories\Sys\SysUserRepository.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

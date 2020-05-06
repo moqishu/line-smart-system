@@ -46,7 +46,6 @@ namespace LINE.SMA.Repositories.Context
             base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<Function> t_function { get; set; }  
 
         //public DbSet<t_role> t_role { get; set; }
 

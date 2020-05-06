@@ -25,7 +25,7 @@ namespace LINE.SMA.Generator
             //
             DbConfig dbConfig = new DbConfig();
 
-            dbConfig.dataBaseName = "lab_db";
+            dbConfig.dataBaseName = "natsucloud";
             dbConfig.userName = "root";
             dbConfig.port = 5831;
             dbConfig.password = "Keytop:wabjtam!";

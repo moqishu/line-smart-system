@@ -14,9 +14,7 @@ namespace LINE.SMA.Web.Controllers
     //[Authorize]
     public class HomeController : BaseController
     {
-        //public MenuInfoService menuInfoService = IocContainer.Resolve<MenuInfoService>();
-
-        public UserManageService manageService = IocContainer.Resolve<UserManageService>();
+        //public UserManageService manageService = IocContainer.Resolve<UserManageService>();
 
         public ActionResult Index()
         {
@@ -24,11 +22,6 @@ namespace LINE.SMA.Web.Controllers
         }
         [HttpGet]
         public ActionResult Index2()
-        {
-            return View();
-        }
-
-        public ActionResult ElmentIndex()
         {
             return View();
         }
@@ -114,19 +107,12 @@ namespace LINE.SMA.Web.Controllers
             return View();
         }
 
-        public object GetMenuInfo()
-        {
-            var menuInfos = manageService.GetAllFunction();
-
-            return ToMenuJson(menuInfos, 0);
-        }
-
-        private string ToMenuJson(List<Function> data, long parentId)
+        private string ToMenuJson(List<SysMenu> data, long parentId)
         {
             StringBuilder sbJson = new StringBuilder();
             sbJson.Append("[");
 
-            List<Function> entitys = data.FindAll(c => c.parentid == parentId).OrderBy(c => c.OrderId).ToList();
+            List<SysMenu> entitys = data.FindAll(c => c.ParentId == parentId).OrderBy(c => c.Sort).ToList();
 
             if (entitys.Count > 0)
             {

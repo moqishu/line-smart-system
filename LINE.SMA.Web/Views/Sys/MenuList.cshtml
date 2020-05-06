@@ -1,5 +1,4 @@
 ﻿@{
-    ViewBag.Title = "MenuList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -22,21 +21,14 @@
 
         $("#btnSearch").click(function () {
             search();
-
-            $('#grid').datagrid('toExcel', {
-                filename: 'datagrid.cvs',
-                worksheet: 'Worksheet'
-            });
         });
 
         $("#btnAdd").click(function () {
-
             //js.openPage("/Menu/MenuList", "编辑界面");//增加tab
             js.windowOpen('用户编辑界面', '/User/UserDetail', 600, 500, false);
         });
 
         $("#btnDel").click(function () {
-
             dataExt.getSelectIds();
         });
 

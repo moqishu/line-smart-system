@@ -121,7 +121,7 @@
             </nav>
         </div>
         <!-- sidebar -->
-        <div class="main-sidebar">
+        <div id="sidebar" class="main-sidebar">
             <div class="sidebar">
                 <div class="user-panel">
                     <div class="pull-left image">
@@ -179,15 +179,14 @@
                 <div title="欢迎使用">
                     <h1 style="font-size:24px;">欢迎使用项目管理系统</h1>
                 </div>
-
             </div>
         </div>*@
+
         <div class="content-wrapper">
             <div id="tabs">
                 @*<div title="欢迎使用" style="padding:20px;overflow:hidden; color:red; ">
                     <h1 style="font-size:24px;">欢迎使用项目管理系统</h1>
                 </div>*@
-
             </div>
         </div>
 
@@ -212,7 +211,12 @@
     
     $(function () {
 
-        
+        //$(window).resize(function () {
+        //    window.setTimeout(function () {
+        //        tabPage.SetResize()
+        //    },
+        //    500)
+        //});
 
         tabPage.initTabPage("tabs");
 
@@ -227,9 +231,7 @@
         //$(".sidebar-toggle").on("click", function () {
         //    WN.addTranEvent($movebox.get(0), callback);
         //});
-
         //var $movebox = $(".main-sidebar");
-
         //function callback() {
         //    tabPage.SetResize();
         //}
@@ -241,27 +243,9 @@
             } else {
                 mainsiderX = 230;
             }
-            //var twidth = $("#tabs").width();
-            //$(".tabpanel_content").animate({
-            //    width: twidth - mainsiderX + 'px'
-            //});
             tabPage.SetResize(mainsiderX);
             
         });
 
-        //function show() {
-        //    var date = new Date(); //日期对象
-        //    var now = "";
-        //    now = date.getFullYear() + "年"; //读英文就行了
-        //    now = now + (date.getMonth() + 1) + "月"; //取月的时候取的是当前月-1如果想取当前月+1就可以了
-        //    now = now + date.getDate() + "日 ";
-        //    now = now + date.getHours() + ":";
-        //    now = now + date.getMinutes() + ":";
-        //    now = now + date.getSeconds() + "";
-        //    document.getElementById("nowTime").innerHTML = now; //div的html是now这个字符串
-        //}
-        
-        //show();
-        //t = setInterval(show, 1000);
     });
 </script>

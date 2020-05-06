@@ -5,7 +5,6 @@ $(function () {
     //    tree_menu_li: '.menuItem'
     //}
 
-
     $('.menuItem').on('click', function (event) {
         var tabTitle = $(this).text();
         var url = $(this).attr("href");
@@ -33,9 +32,9 @@ $(function () {
 function getMenuData() {
     var menuData;
     $.ajax({
-        url: "/Home/GetMenuInfo",
-        type: "get",
-        dataType: "json",
+        url: "/Sys/GetMenuList",
+        type: "GET",
+        dataType: "JSON",
         async: false,
         success: function (data) {
             menuData = data;
@@ -58,20 +57,20 @@ function GetLoadNav() {
             }
             //_html += '<li class="treeview">';
             _html += '<a href="#">';
-            _html += '<i class="fa fa-th-large"></i> <span>' + row.MenuName + '</span>';
+            _html += '<i class="fa fa-th-large"></i> <span>' + row.Name + '</span>';
             _html += '<span class="pull-right-container">';
             _html += '<i class="fa fa-angle-left pull-right"></i>';
             _html += '</span>';
             _html += '</a>';
 
-            var childNodes = row.ChildNodes;
+            var childNodes = row.Child;
             if (childNodes.length > 0) {
                 _html += '<ul class="treeview-menu">';
                 $.each(childNodes, function (i) {
                     var subrow = childNodes[i];
-                    var url = subrow.URL == null ? '#' : subrow.URL;
+                    var url = subrow.Url == null ? '#' : subrow.Url;
                     _html += '<li>';
-                    _html += '<a class="menuItem" href="' + url + '" data-id="' + subrow.Id + '"><i class=""></i>' + subrow.MenuName + '</a>';
+                    _html += '<a class="menuItem" href="' + url + '" data-id="' + subrow.Id + '"><i class=""></i>' + subrow.Name + '</a>';
                     _html += '</li>';
                 });
                 _html += '</ul>';

@@ -1,0 +1,155 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+}
+
+@*<style>
+    /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+    ::-webkit-scrollbar {
+        width: 6px; /*滚动条宽度*/
+        height: 10px; /*滚动条高度*/
+    }
+
+    /*定义滚动条轨道 内阴影+圆角*/
+    ::-webkit-scrollbar-track {
+        /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);*/
+        border-radius: 10px; /*滚动条的背景区域的圆角*/
+        background-color: rgba(0,0,0,0.2); /*滚动条的背景颜色*/
+        /*background-color: transparent;*/
+        background: rgba(0,0,0,0.1);
+    }
+
+    /*定义滑块 内阴影+圆角*/
+    ::-webkit-scrollbar-thumb {
+        border-radius: 10px; /*滚动条的圆角*/
+        /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);*/
+        background-color: rgba(0,0,0,0.5); /*滚动条的背景颜色*/
+        background-clip: content-box;
+    }  
+</style>*@
+
+@*<style>
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        background: rgba(0,0,0,0.2);
+    }
+    ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        border-radius: 0;
+        background: rgba(0,0,0,0.1);
+    }
+    ::-webkit-scrollbar-resizer {
+        background: #FF0BEE;
+    }
+    /*::-webkit-scrollbar-button {
+        background-color: #FF7677;
+        height:4px;
+        width:4px;
+    }*/
+
+</style>*@
+
+<div class="page-content">
+    <div id="searchbar" class="searchbar">
+        <input type="text" id="id1" name="" placeholder="编号">
+        <input type="text" id="id2" placeholder="用户名">
+        <a id="btnSearch" author="S" class="btn btn-sm btn-primary">查询</a>
+        <a id="btnAdd" author="A" class="btn btn-sm btn-success">新增</a>
+        <a id="btnAdd" author="E" class="btn btn-sm btn-info">编辑</a>
+        <a id="btnDel" author="D" class="btn btn-sm btn-danger">删除</a>
+    </div>
+    <div id="grid">
+    </div>
+</div>
+<script>
+    $(function () {
+
+        $("#btnSearch").click(function () {
+            search();
+        });
+
+        $("#btnAdd").click(function () {
+
+            //js.openPage("/Menu/MenuList", "编辑界面");//增加tab
+            js.windowOpen('用户编辑界面', '/User/UserDetail', 600, 500, false);
+        });
+
+        $("#btnDel").click(function () {
+
+            dataExt.getSelectIds();
+        });
+        function search(gridId, parameter) {
+
+            dataExt.loadGrid();
+
+
+            //if (typeof (gridId) == "undefined") {
+            //    gridId = "grid";
+            //}
+            //var par = parameter || {}; //后台构造取巧参数可以传入
+
+            //$("#" + gridId).datagrid('load');
+
+            //var pas = $(".searchbar").GetParameter();
+            //var grid = $('#' + gridId).data("kendoLemonGrid");
+            //var dsOptions = grid.getOptions().dataSource;
+            //var param = $.extend({}, pas, par, { page: dsOptions.page, pageSize: dsOptions.pageSize });
+            //$('#' + gridId).data("kendoLemonGrid").dataSource.query(param);
+        }
+
+        //var dataSource = $.GetDataSource("/Menu/GetMenuInfo");
+
+        var reportName = "User_GetUserList";
+        var dataUrl = "/Common/GetPageData?reportName=" + reportName;
+
+        $('#grid').LineGrid({
+            url: "/Common/GetPageData?reportName=" + reportName,
+            queryParams: {},
+            singleSelect: false,
+            //fitColumns: true,
+            //nowrap: false,
+            columns: [[
+                { field: 'ck', title: '选择', checkbox: true },
+                //{ field: 'Id', title: '编号', align: 'center', width: 100 },
+                { field: 'UserCode', title: '编码', align: 'center', width: 80 },
+                { field: "UserName", title: "登录名", align: 'center', width: 120 },
+                { field: "RealName", title: "姓名", align: 'center', width: 120 },
+                { field: "rolename", title: "用户角色", align: 'center', width: 120 },
+                { field: "Sex", title: "性别", align: 'center', width: 60 },
+                { field: "Mobile", title: "联系方式", align: 'center', width: 120 },
+                { field: "Remark", title: "描述", width: 250 },
+                { field: "UserState", title: "用户状态", align: 'center', width: 80 },
+                { field: "LoginState", title: "登录状态", align: 'center', width: 80},
+                { field: "CreateTime", title: "创建时间", align: 'center' },
+            ]]
+        });
+
+
+
+
+        function opFormat(value, row) {
+            var html = "";
+            html += "<a href=\"javascript:void(0)\" class=\"btn btn-xs btn-info\" onclick=\"\">编辑</a>";
+            return html;
+        }
+
+        //overflow-y:hidden
+        $(".datagrid-body").mouseover(function () {
+            if ($(this).css("overflow-y") == "hidden") {
+                $(this).css("overflow-y", "auto");
+            }
+            //$(this).css("overflow-x", "scroll");
+        });
+        $(".datagrid-body").mouseout(function () {
+            $(this).css("overflow-y", "hidden");
+            //$(this).css("overflow-x", "hidden");
+        });
+        
+    });
+
+</script>
+
